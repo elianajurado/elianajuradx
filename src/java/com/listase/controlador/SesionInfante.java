@@ -36,7 +36,7 @@ public class SesionInfante implements Serializable {
     private String alInicio="1";
     private boolean deshabilitarFormulario=true;
     private Nodo ayudante;   
-    private String textoVista="Gráfico";
+    private String textoVista="Gráfico"; 
     
     private List listadoInfantes;
     
@@ -241,6 +241,20 @@ public class SesionInfante implements Serializable {
         {
             textoVista = "Tabla";
         }
+    }
+    
+    public void invertirInfantes(){
+        if(listaInfantes.getCabeza()!=null)
+        {            
+            while(ayudante.getSiguiente()!=null)
+            {
+                ayudante = ayudante.getSiguiente(); 
+                ayudante.setSiguiente(ayudante.getSiguiente());
+                ayudante.setSiguiente(listaInfantes.getCabeza());
+            }
+            infante=ayudante.getDato();
+        }
+    
     }
     
 }

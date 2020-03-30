@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Eliana Jurado</title>
         <style type="text/css">
     .ui-diagram-element {   
         width:14em; 
@@ -56,6 +56,11 @@
                                 <f:selectItem itemLabel="SI" itemValue="1"/>
                                 <f:selectItem itemLabel="NO" itemValue="0"/>
                             </p:selectOneMenu>
+                            <p:outputLabel value="Genero"/>
+                            <p:selectOneMenu value="" disabled="#{sesionInfante.deshabilitarFormulario}">
+                                <f:selectItem itemLabel="Femenino" itemValue="1"/>
+                                <f:selectItem itemLabel="Masculino" itemValue="0"/>
+                            </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
                                          action="#{sesionInfante.guardarInfante()}" disabled="#{sesionInfante.deshabilitarFormulario}"/>
@@ -63,13 +68,15 @@
                         <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfante.habilitarFormulario()}"
                                          disabled="#{!sesionInfante.deshabilitarFormulario}"
                                          />
-                        <p:panelGrid columns="3">
+                        <p:panelGrid columns="4">
                             <p:commandButton value="Primero" action="#{sesionInfante.irPrimero()}" 
                                               update="frmInfante"/>
                             <p:commandButton value="Siguiente" action="#{sesionInfante.irSiguiente()}"
                                              update="frmInfante"/>       
                             <p:commandButton value="Último" action="#{sesionInfante.irUltimo()}" 
-                                             update="frmInfante"/>                           
+                                             update="frmInfante"/>
+                            <p:commandButton value="Invertir" action="#{sesionInfante.invertirInfantes()}" 
+                                             update="frmInfante"/>
                             
                             
                             
@@ -100,10 +107,15 @@
                                 </f:facet>
                                 <p:outputLabel value="#{inf.edad}"/>
                             </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Genero"/>
+                                </f:facet>
+                                <p:outputLabel value=""/>
+                            </p:column>
                         </p:dataTable>
                         
-                        <p:diagram rendered="#{sesionInfante.textoVista=='Tabla'}" value="#{sesionInfante.model}" style="height:600px; width: 800px;" styleClass="ui-widget-content" />
-                        
+                        <p:diagram rendered="#{sesionInfante.textoVista=='Tabla'}" value="#{sesionInfante.model}" style="height:600px; width: 800px;" styleClass="ui-widget-content" /> 
                     </p:panel>
 
                 </p:panelGrid>
