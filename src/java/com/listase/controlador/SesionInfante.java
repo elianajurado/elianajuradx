@@ -5,9 +5,11 @@
  */
 package com.listase.controlador;
 
+import com.listase.excepciones.infanteExcepcion;
 import com.listase.modelo.Infante;
 import com.listase.modelo.ListaSE;
 import com.listase.modelo.Nodo;
+import com.listase.utilidades.JsfUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -36,11 +38,29 @@ public class SesionInfante implements Serializable {
     private String alInicio="1";
     private boolean deshabilitarFormulario=true;
     private Nodo ayudante;   
-    private String textoVista="Gráfico"; 
+    private String textoVista="Gráfico";   
+    private List listadoInfantes;    
+    private DefaultDiagramModel model;    
+    private short codigoEliminar;
+    private ControladorLocalidades controlLocalidades= new ControladorLocalidades();
+    private String codigoDeptoSel;
+
+    public ControladorLocalidades getControlLocalidades() {
+        return controlLocalidades;
+    }
+
+    public void setControlLocalidades(ControladorLocalidades controlLocalidades) {
+        this.controlLocalidades = controlLocalidades;
+    }
     
-    private List listadoInfantes;
-    
-    private DefaultDiagramModel model;
+
+    public short getCodigoEliminar() {
+        return codigoEliminar;
+    }
+
+    public void setCodigoEliminar(short codigoEliminar) {
+        this.codigoEliminar = codigoEliminar;
+    }
     
     /**
      * Creates a new instance of SesionInfante
@@ -51,58 +71,20 @@ public class SesionInfante implements Serializable {
     @PostConstruct
     private void inicializar()
     {
+        controlLocalidades= new ControladorLocalidades();
+        codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaInfantes = new ListaSE();        
         //LLenado de la bds
-        listaInfantes.adicionarNodo(new Infante("Carlitos",(short) 1, (byte)2));
-        listaInfantes.adicionarNodo(new Infante("Juanita",(short) 2, (byte)3));
-        listaInfantes.adicionarNodo(new Infante("Martina",(short) 3, (byte)1));
-        listaInfantes.adicionarNodoAlInicio(new Infante("Mariana",(short) 4, (byte)5));
+        listaInfantes.adicionarNodo(new Infante("Carlitos",(short) 1, (byte)2, true, controlLocalidades.getCiudades().get(0).getNombre()));
+        listaInfantes.adicionarNodo(new Infante("Juanita",(short) 2, (byte)3, true, controlLocalidades.getCiudades().get(2).getNombre()));
+        listaInfantes.adicionarNodo(new Infante("Martina",(short) 3, (byte)1, false, controlLocalidades.getCiudades().get(0).getNombre()));
+        listaInfantes.adicionarNodoAlInicio(new Infante("Mariana",(short) 4, (byte)5, false, controlLocalidades.getCiudades().get(1).getNombre()));
         ayudante = listaInfantes.getCabeza();
         infante = ayudante.getDato();     
         //Me llena el objeto List para la tabla
         listadoInfantes = listaInfantes.obtenerListaInfantes();
+        pintarLista();       
         
-        model = new DefaultDiagramModel();
-        //Pude tener n flechas
-        model.setMaxConnections(-1);
-         
-        FlowChartConnector connector = new FlowChartConnector();
-        connector.setPaintStyle("{strokeStyle:'#C7B097',lineWidth:3}");
-        model.setDefaultConnector(connector);
-         
-        Element start = new Element("Fight for your dream", "20em", "6em");
-        start.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
-        start.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
-         
-        Element trouble = new Element("Do you meet some trouble?", "20em", "18em");
-        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
-        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
-        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.RIGHT));
-         
-        Element giveup = new Element("Do you give up?", "20em", "30em");
-        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
-        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
-        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.RIGHT));
-         
-        Element succeed = new Element("Succeed", "50em", "18em");
-        succeed.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
-        succeed.setStyleClass("ui-diagram-success");
-         
-        Element fail = new Element("Fail", "50em", "30em");
-        fail.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
-        fail.setStyleClass("ui-diagram-fail");
-                         
-        model.addElement(start);
-        model.addElement(trouble);
-        model.addElement(giveup);
-        model.addElement(succeed);
-        model.addElement(fail);
-                 
-        model.connect(createConnection(start.getEndPoints().get(0), trouble.getEndPoints().get(0), null));
-        model.connect(createConnection(trouble.getEndPoints().get(1), giveup.getEndPoints().get(0), "Yes"));
-        model.connect(createConnection(giveup.getEndPoints().get(1), start.getEndPoints().get(1), "No"));
-        model.connect(createConnection(trouble.getEndPoints().get(2), succeed.getEndPoints().get(0), "No"));
-        model.connect(createConnection(giveup.getEndPoints().get(2), fail.getEndPoints().get(0), "Yes"));
     }
      
     public DiagramModel getModel() {
@@ -128,8 +110,15 @@ public class SesionInfante implements Serializable {
         this.textoVista = textoVista;
     }
 
-    
-    
+    public String getCodigoDeptoSel() {
+        return codigoDeptoSel;
+    }
+
+    public void setCodigoDeptoSel(String codigoDeptoSel) {
+        this.codigoDeptoSel = codigoDeptoSel;
+    }
+
+        
     public List getListadoInfantes() {
         return listadoInfantes;
     }
@@ -190,8 +179,8 @@ public class SesionInfante implements Serializable {
             listaInfantes.adicionarNodo(infante);
         }  
         //Vuelvo a llenar la lista para la tabla
-        listadoInfantes = listaInfantes.obtenerListaInfantes();
-        deshabilitarFormulario=true;
+        irPrimero();
+        JsfUtil.addSuccessMessage("El infante se ha guardado correctamente");
         
     }
     
@@ -217,6 +206,12 @@ public class SesionInfante implements Serializable {
             ayudante = listaInfantes.getCabeza();
             infante = ayudante.getDato();
         }
+        else
+        {
+            infante = new Infante();
+        }
+        listadoInfantes = listaInfantes.obtenerListaInfantes();
+        pintarLista();
     }
     
     public void irUltimo()
@@ -243,18 +238,68 @@ public class SesionInfante implements Serializable {
         }
     }
     
-    public void invertirInfantes(){
-        if(listaInfantes.getCabeza()!=null)
-        {            
-            while(ayudante.getSiguiente()!=null)
-            {
-                ayudante = ayudante.getSiguiente(); 
-                ayudante.setSiguiente(ayudante.getSiguiente());
-                ayudante.setSiguiente(listaInfantes.getCabeza());
-            }
-            infante=ayudante.getDato();
-        }
-    
+    public void invertirLista()
+    {
+        listaInfantes.invertirLista();
+        irPrimero();
     }
     
+    public void pintarLista()
+    {
+        //Instancia el modelo
+        model = new DefaultDiagramModel();
+        //Pude tener n flechas
+        model.setMaxConnections(-1);
+         
+        FlowChartConnector connector = new FlowChartConnector();
+        connector.setPaintStyle("{strokeStyle:'#C7B097',lineWidth:3}");
+        model.setDefaultConnector(connector);
+         
+        //adicionar los elementos
+        if(listaInfantes.getCabeza() !=null)
+        {
+            Nodo temp= listaInfantes.getCabeza();
+            int posX=2;
+            int posY=2;
+            while(temp !=null)
+            {
+                Element ele = new Element(temp.getDato().getNombre(), posX+"em", posY+"em");
+                ele.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
+                ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_RIGHT));
+                model.addElement(ele);
+                temp= temp.getSiguiente();
+                posX= posX+5;
+                posY= posX+6;
+            }
+            for(int i=0; i < model.getElements().size() -1; i++)
+            {
+                model.connect(createConnection(model.getElements().get(i).getEndPoints().get(1), model.getElements().get(i+1).getEndPoints().get(0), "Siguiente"));
+                
+            }
+        }
+    }
+    
+    
+    public void eliminarInfante()
+    {
+        if(codigoEliminar >0)
+        {
+            try {
+                listaInfantes.eliminarInfante(codigoEliminar);
+                irPrimero();
+                infante= listaInfantes.getCabeza().getDato();
+                JsfUtil.addSuccessMessage("Infante " +codigoEliminar+ " eliminado");
+            } catch (infanteExcepcion e) {
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+{
+            
+            }
+        }
+  
+        else
+        {
+            JsfUtil.addErrorMessage("El código a elminar: " +codigoEliminar+ " No es válido" );
+        }
+    }
 }

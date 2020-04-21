@@ -5,6 +5,7 @@
  */
 package com.listase.modelo;
 
+import com.listase.excepciones.infanteExcepcion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,91 @@ public class ListaSE implements Serializable{
             }            
         }
         
+    }
+    
+    public float promediarEdades()
+    {
+        int sumaEdades=0;
+        int contador=0;
+        if(cabeza !=null)
+        {
+            Nodo temp= cabeza;            
+            while(temp!=null)
+            {
+                sumaEdades += temp.getDato().getEdad();
+                contador++;
+                temp=temp.getSiguiente();
+                
+            }
+            return sumaEdades/(float) contador;
+        }
+        return 0;
+    }
+    
+    public void invertirLista()
+    {
+        if(cabeza !=null)
+        {
+            ListaSE listaTemporal= new ListaSE();
+            Nodo temp= cabeza;
+            while(temp!=null)
+            {
+                listaTemporal.adicionarNodoAlInicio(temp.getDato() );
+                temp=temp.getSiguiente();
+                
+            }
+            cabeza= listaTemporal.getCabeza();
+        }
+    }
+    
+    public short contarInfantesxGenero(boolean genero)
+    {
+        if(cabeza ==null)
+        {
+            return 0;
+        }
+        else
+        {
+            //llamar a mi ayudante
+            Nodo temp= cabeza;
+            short cont=1;
+            while(temp!=null)
+            {
+                if(temp.getDato().isGenero()==genero)
+                {
+                    cont++;
+                }
+                temp=temp.getSiguiente();
+            }
+            return cont;
+        }
+    }
+    
+    public void eliminarInfante(short codigo) throws infanteExcepcion
+    {
+        if(cabeza !=null)
+        {
+            if(cabeza.getDato().getCodigo()==codigo)
+            {
+                cabeza=cabeza.getSiguiente();
+                return;
+            }
+            else
+            {
+                Nodo temp=cabeza;
+                while(temp.getSiguiente()!=null)
+                {
+                    if(temp.getSiguiente().getDato().getCodigo()== codigo)
+                    {
+                        temp.setSiguiente(temp.getSiguiente().getSiguiente());
+                        return;
+                    }
+                    temp= temp.getSiguiente();
+                }
+                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+            }
+        }
+        throw new infanteExcepcion("La lista de infantes está vacia");
     }
     
 }
