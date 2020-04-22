@@ -12,38 +12,39 @@ import java.util.List;
 
 /**
  *
- * @author carloaiza
+ * @author elianajuradx
  */
-public class ListaSE implements Serializable{
-    private Nodo cabeza;
+public class ListaDE implements Serializable{
+    private NodoDE cabeza;
 
-    public ListaSE() {
-    }
-
-    public Nodo getCabeza() {
+    public NodoDE getCabeza() {
         return cabeza;
     }
 
-    public void setCabeza(Nodo cabeza) {
+    public void setCabeza(NodoDE cabeza) {
         this.cabeza = cabeza;
+    }
+
+    public ListaDE() {
     }
     
     public void adicionarNodo(Infante infante)
     {
         if(cabeza ==null)
         {
-            cabeza = new Nodo(infante);
+            cabeza = new NodoDE(infante);
         }
         else
         {
             //Lamo a mi ayudante
-            Nodo temp= cabeza;
+            NodoDE temp= cabeza;
             while(temp.getSiguiente()!=null) //Mientras que en siguiente exista algo
             {
                 temp= temp.getSiguiente();
             }
             //temp va estar ubicado en el ultimo nodo
-            temp.setSiguiente(new Nodo(infante));
+            temp.setSiguiente(new NodoDE(infante));
+            temp.getSiguiente().setAnterior(temp);
         }
         
     }
@@ -52,17 +53,18 @@ public class ListaSE implements Serializable{
     {
         if(cabeza ==null)
         {
-            cabeza = new Nodo(infante);
+            cabeza = new NodoDE(infante);
         }
         else
         {
-            Nodo temp= new Nodo(infante);
+            NodoDE temp= new NodoDE(infante);
             temp.setSiguiente(cabeza);
+            cabeza.setAnterior(temp);
             cabeza= temp;
         }
     }
     
-    public short contarNodos()
+        public short contarNodos()
     {
         if(cabeza ==null)
         {
@@ -71,7 +73,7 @@ public class ListaSE implements Serializable{
         else
         {
             //llamar a mi ayudante
-            Nodo temp= cabeza;
+            NodoDE temp= cabeza;
             short cont=1;
             while(temp.getSiguiente()!=null)
             {
@@ -95,7 +97,7 @@ public class ListaSE implements Serializable{
     {
         if(cabeza !=null)
         {
-            Nodo temp= cabeza;            
+            NodoDE temp= cabeza;            
             while(temp!=null)
             {
                 listado += temp.getDato()+"\n";
@@ -121,7 +123,7 @@ public class ListaSE implements Serializable{
     {
         if(cabeza !=null)
         {
-            Nodo temp= cabeza;            
+            NodoDE temp= cabeza;            
             while(temp!=null)
             {
                 //listado += temp.getDato()+"\n";
@@ -139,7 +141,7 @@ public class ListaSE implements Serializable{
         int contador=0;
         if(cabeza !=null)
         {
-            Nodo temp= cabeza;            
+            NodoDE temp= cabeza;            
             while(temp!=null)
             {
                 sumaEdades += temp.getDato().getEdad();
@@ -156,8 +158,8 @@ public class ListaSE implements Serializable{
     {
         if(cabeza !=null)
         {
-            ListaSE listaTemporal= new ListaSE();
-            Nodo temp= cabeza;
+        ListaDE listaTemporal= new ListaDE();
+            NodoDE temp= cabeza;
             while(temp!=null)
             {
                 listaTemporal.adicionarNodoAlInicio(temp.getDato() );
@@ -177,7 +179,7 @@ public class ListaSE implements Serializable{
         else
         {
             //llamar a mi ayudante
-            Nodo temp= cabeza;
+            NodoDE temp= cabeza;
             short cont=1;
             while(temp!=null)
             {
@@ -198,16 +200,19 @@ public class ListaSE implements Serializable{
             if(cabeza.getDato().getCodigo()==codigo)
             {
                 cabeza=cabeza.getSiguiente();
+                cabeza.setAnterior(null);
                 return;
             }
             else
             {
-                Nodo temp=cabeza;
+                NodoDE temp=cabeza;
                 while(temp.getSiguiente()!=null)
                 {
                     if(temp.getSiguiente().getDato().getCodigo()== codigo)
                     {
                         temp.setSiguiente(temp.getSiguiente().getSiguiente());
+                        if(temp.getSiguiente()!=null)
+                            temp.getSiguiente().setAnterior(temp);
                         return;
                     }
                     temp= temp.getSiguiente();
@@ -228,7 +233,7 @@ public class ListaSE implements Serializable{
             }
             else
             {
-                Nodo temp=cabeza;
+                NodoDE temp=cabeza;
                 while(temp!=null)
                 {
                     if(temp.getDato().getCodigo()== codigo)
@@ -242,5 +247,4 @@ public class ListaSE implements Serializable{
         }
         throw new infanteExcepcion("La lista de infantes está vacia");
     }
-    
 }

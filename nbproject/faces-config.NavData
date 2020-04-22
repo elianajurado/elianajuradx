@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="*" x="458" y="97" zoom="true"/>
+        <Node id="listade/index.xhtml" x="687" y="274" zoom="true"/>
+        <Node id="listase/index.xhtml" x="66" y="237" zoom="true"/>
+        <Node id="motogp/motogp.xhtml" x="180" y="321" zoom="true"/>
+        <Node id="inicioListas.xhtml" x="446" y="340" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

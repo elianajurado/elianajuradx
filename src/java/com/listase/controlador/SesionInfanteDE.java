@@ -1,14 +1,16 @@
+package com.listase.controlador;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.listase.controlador;
 
+import com.listase.controlador.ControladorLocalidades;
 import com.listase.excepciones.infanteExcepcion;
 import com.listase.modelo.Infante;
-import com.listase.modelo.ListaSE;
-import com.listase.modelo.Nodo;
+import com.listase.modelo.ListaDE;
+import com.listase.modelo.NodoDE;
 import com.listase.utilidades.JsfUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -29,16 +31,16 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 
 /**
  *
- * @author carloaiza
+ * @author elianajuradx
  */
-@Named(value = "sesionInfante")
+@Named(value = "sesionInfateDE")
 @SessionScoped
-public class SesionInfante implements Serializable {
-    private ListaSE listaInfantes;
+public class SesionInfanteDE implements Serializable {
+private ListaDE listaInfantes;
     private Infante infante;
     private String alInicio="1";
     private boolean deshabilitarFormulario=true;
-    private Nodo ayudante;   
+    private NodoDE ayudante;   
     private String textoVista="Gráfico";   
     private List listadoInfantes;    
     private DefaultDiagramModel model;    
@@ -84,7 +86,7 @@ public class SesionInfante implements Serializable {
     /**
      * Creates a new instance of SesionInfante
      */
-    public SesionInfante() {        
+    public SesionInfanteDE() {        
     }
     
     @PostConstruct
@@ -92,7 +94,7 @@ public class SesionInfante implements Serializable {
     {
         controlLocalidades= new ControladorLocalidades();
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
-        listaInfantes = new ListaSE();        
+        listaInfantes = new ListaDE();        
         //LLenado de la bds
         listaInfantes.adicionarNodo(new Infante("Carlitos",(short) 1, (byte)2, true, controlLocalidades.getCiudades().get(0).getNombre()));
         listaInfantes.adicionarNodo(new Infante("Juanita",(short) 2, (byte)3, true, controlLocalidades.getCiudades().get(2).getNombre()));
@@ -168,11 +170,11 @@ public class SesionInfante implements Serializable {
         this.alInicio = alInicio;
     }
     
-    public ListaSE getListaInfantes() {
+    public ListaDE getListaInfantes() {
         return listaInfantes;
     }
 
-    public void setListaInfantes(ListaSE listaInfantes) {
+    public void setListaInfantes(ListaDE listaInfantes) {
         this.listaInfantes = listaInfantes;
     }
 
@@ -214,6 +216,15 @@ public class SesionInfante implements Serializable {
         if(ayudante.getSiguiente()!=null)
         {
             ayudante = ayudante.getSiguiente();
+            infante = ayudante.getDato();
+        }        
+    }
+    
+    public void irAnterior()
+    {
+        if(ayudante.getAnterior()!=null)
+        {
+            ayudante = ayudante.getAnterior();
             infante = ayudante.getDato();
         }        
     }
@@ -277,7 +288,7 @@ public class SesionInfante implements Serializable {
         //adicionar los elementos
         if(listaInfantes.getCabeza() !=null)
         {
-            Nodo temp= listaInfantes.getCabeza();
+            NodoDE temp= listaInfantes.getCabeza();
             int posX=2;
             int posY=2;
             while(temp !=null)
@@ -285,6 +296,9 @@ public class SesionInfante implements Serializable {
                 Element ele = new Element(temp.getDato().getNombre(), posX+"em", posY+"em");
                 ele.setId(String.valueOf(temp.getDato().getCodigo()));
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
+                ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_RIGHT));
+                
+                ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_LEFT));
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_RIGHT));
                 model.addElement(ele);
                 temp= temp.getSiguiente();
@@ -294,6 +308,7 @@ public class SesionInfante implements Serializable {
             for(int i=0; i < model.getElements().size() -1; i++)
             {
                 model.connect(createConnection(model.getElements().get(i).getEndPoints().get(1), model.getElements().get(i+1).getEndPoints().get(0), "Siguiente"));
+                model.connect(createConnection(model.getElements().get(i).getEndPoints().get(1), model.getElements().get(i+1).getEndPoints().get(3), "Anterior"));
                 
             }
         }
@@ -343,7 +358,6 @@ public class SesionInfante implements Serializable {
     public void enviarAlFinal() {
         try
         {
-            System.out.println(infanteSeleccionado);
             Infante InfTemporal = listaInfantes.obtenerInfante(infanteSeleccionado);
             listaInfantes.eliminarInfante(infanteSeleccionado);
             listaInfantes.adicionarNodo(InfTemporal);
@@ -372,5 +386,5 @@ public class SesionInfante implements Serializable {
             }
         
     }
-
+    
 }
