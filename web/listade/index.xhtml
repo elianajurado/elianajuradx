@@ -172,7 +172,7 @@
                                     update="panelInfante"                                    
                                     oncomplete="PF('dlgDatosInfante').show();" />
 
-                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Eliminar" update="pnlVista" action="#{sesionInfateDE.Eliminar}"/>
                         <p:menuitem value="Enviar al final" update="pnlVista" action="#{sesionInfateDE.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista" action="#{sesionInfateDE.enviarAlInicio()}"/>
                         <p:menuitem value="Adelantar/Perder Posición"/>

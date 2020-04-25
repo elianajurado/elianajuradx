@@ -247,4 +247,170 @@ public class ListaDE implements Serializable{
         }
         throw new infanteExcepcion("La lista de infantes está vacia");
     }
+    public void adicionarNodo(Piloto piloto)
+    {
+        if(cabeza ==null)
+        {
+            cabeza = new NodoDE(piloto);
+        }
+        else
+        {
+            //Lamo a mi ayudante
+            NodoDE temp= cabeza;
+            while(temp.getSiguiente()!=null) //Mientras que en siguiente exista algo
+            {
+                temp= temp.getSiguiente();
+            }
+            //temp va estar ubicado en el ultimo nodo
+            temp.setSiguiente(new NodoDE(piloto));
+            temp.getSiguiente().setAnterior(temp);
+        }
+        
+    }
+    
+    public void adicionarNodoAlInicio(Piloto piloto)
+    {
+        if(cabeza ==null)
+        {
+            cabeza = new NodoDE(piloto);
+        }
+        else
+        {
+            NodoDE temp= new NodoDE(piloto);
+            temp.setSiguiente(cabeza);
+            cabeza.setAnterior(temp);
+            cabeza= temp;
+        }
+    }
+    
+    public String obtenerListadoPilotos()
+    {
+        
+        //Un método recursivo que recoora mis infantes y que sacando la
+        // info la adicione een el string
+        
+        return listarPilotos("");
+    }
+    
+    public String listarPilotos(String listado)
+    {
+        if(cabeza !=null)
+        {
+            NodoDE temp= cabeza;            
+            while(temp!=null)
+            {
+                listado += temp.getDato()+"\n";
+                temp=temp.getSiguiente();
+                
+            }
+            return listado;
+        }
+        return "No hay pilotos";
+    }
+    
+    
+     public List obtenerListaPilotos()
+    {
+        List<Infante> listado = new ArrayList<>();
+        //Un método recursivo que recoora mis infantes y que sacando la
+        // info la adicione een el string
+        listarPilotos(listado);
+        return listado;
+    }
+    
+    public void listarPilotos(List listado)
+    {
+        if(cabeza !=null)
+        {
+            NodoDE temp= cabeza;            
+            while(temp!=null)
+            {
+                //listado += temp.getDato()+"\n";
+                listado.add(temp.getDato());
+                temp=temp.getSiguiente();
+                
+            }            
+        }
+        
+    }
+    
+ 
+    
+    public short contarPilotosxGenero(boolean genero)
+    {
+        if(cabeza ==null)
+        {
+            return 0;
+        }
+        else
+        {
+            //llamar a mi ayudante
+            NodoDE temp= cabeza;
+            short cont=1;
+            while(temp!=null)
+            {
+                if(temp.getDato().isGenero()==genero)
+                {
+                    cont++;
+                }
+                temp=temp.getSiguiente();
+            }
+            return cont;
+        }
+    }
+    
+    public void eliminarPiloto(short codigo) throws infanteExcepcion
+    {
+        if(cabeza !=null)
+        {
+            if(cabeza.getDato().getCodigo()==codigo)
+            {
+                cabeza=cabeza.getSiguiente();
+                cabeza.setAnterior(null);
+                return;
+            }
+            else
+            {
+                NodoDE temp=cabeza;
+                while(temp.getSiguiente()!=null)
+                {
+                    if(temp.getSiguiente().getDato().getCodigo()== codigo)
+                    {
+                        temp.setSiguiente(temp.getSiguiente().getSiguiente());
+                        if(temp.getSiguiente()!=null)
+                            temp.getSiguiente().setAnterior(temp);
+                        return;
+                    }
+                    temp= temp.getSiguiente();
+                }
+                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+            }
+        }
+        throw new infanteExcepcion("La lista de pilotos está vacia");
+    }
+    
+    public Infante obtenerPiloto(short codigo) throws infanteExcepcion
+    {
+        if(cabeza !=null)
+        {
+            if(cabeza.getDato().getCodigo()==codigo)
+            {
+                return cabeza.getDato();
+            }
+            else
+            {
+                NodoDE temp=cabeza;
+                while(temp!=null)
+                {
+                    if(temp.getDato().getCodigo()== codigo)
+                    {
+                        return temp.getDato();
+                    }
+                    temp= temp.getSiguiente();
+                }
+                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+            }
+        }
+        throw new infanteExcepcion("La lista de pilotos está vacia");
+    }
 }

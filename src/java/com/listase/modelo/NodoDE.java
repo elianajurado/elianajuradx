@@ -13,6 +13,19 @@ public class NodoDE {
     private Infante dato;
     private NodoDE siguiente;
     private NodoDE anterior;
+    private Piloto referencia;
+
+    public Piloto getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(Piloto referencia) {
+        this.referencia = referencia;
+    }
+
+    public NodoDE(Piloto referencia) {
+        this.referencia = referencia;
+    }
 
     public NodoDE(Infante dato) {
         this.dato = dato;

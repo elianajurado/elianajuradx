@@ -59,24 +59,24 @@
                 <div class="col-md-3">
                     <h3>Controles</h3>
                         <p:panelGrid columns="2">
-                            <p:commandButton value="Primero" action="#{sesionInfateDE.irPrimero()}" 
+                            <p:commandButton value="Primero" action="#{sesionPilotoDE.irPrimero()}" 
                                               update="frmInfante"/>
-                            <p:commandButton value="Anterior" action="#{sesionInfateDE.irAnterior()}"
+                            <p:commandButton value="Anterior" action="#{sesionPilotoDE.irAnterior()}"
                                              update="frmInfante"/>
-                            <p:commandButton value="Siguiente" action="#{sesionInfateDE.irSiguiente()}"
+                            <p:commandButton value="Siguiente" action="#{sesionPilotoDE.irSiguiente()}"
                                              update="frmInfante"/>       
-                            <p:commandButton value="Último" action="#{sesionInfateDE.irUltimo()}" 
+                            <p:commandButton value="Último" action="#{sesionPilotoDE.irUltimo()}" 
                                              update="frmInfante"/>
-                            <p:commandButton value="Invertir" action="#{sesionInfateDE.invertirLista()}" 
+                            <p:commandButton value="Invertir" action="#{sesionPilotoDE.invertirLista()}" 
                                              update="frmInfante"/>                           
                             
                         </p:panelGrid>
                    
                 </div>
                 <div class="col-md-9">
-                    <p:diagram id="diagrama" rendered="#{sesionInfateDE.textoVista=='Tabla'}" value="#{sesionInfateDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" /> 
+                    <p:diagram id="diagrama" rendered="#{sesionPilotoDE.textoVista=='Tabla'}" value="#{sesionPilotoDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" /> 
                         <p:remoteCommand name="elementClickRight" 
-                                     actionListener="#{sesionInfateDE.onClickRight()}" 
+                                     actionListener="#{sesionPilotoDE.onClickRight()}" 
                                      >
                         </p:remoteCommand>
                         <script>
