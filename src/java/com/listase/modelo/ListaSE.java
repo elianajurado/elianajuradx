@@ -217,7 +217,6 @@ public class ListaSE implements Serializable{
         }
         throw new infanteExcepcion("La lista de infantes está vacia");
     }
-    
     public Infante obtenerInfante(short codigo) throws infanteExcepcion
     {
         if(cabeza !=null)
@@ -241,6 +240,6 @@ public class ListaSE implements Serializable{
             }
         }
         throw new infanteExcepcion("La lista de infantes está vacia");
-    }
-    
+    }  
+
 }

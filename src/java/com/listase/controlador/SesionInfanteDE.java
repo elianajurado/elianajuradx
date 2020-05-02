@@ -386,5 +386,21 @@ private ListaDE listaInfantes;
             }
         
     }
-    
+    public void adelantarInfante() {
+        try
+        {
+            Infante InfTemporal = listaInfantes.obtenerInfante(infanteSeleccionado);
+            ayudante = ayudante.getSiguiente().getSiguiente();
+            infante = ayudante.getDato();
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            listaInfantes.adicionarNodoAlInicio(InfTemporal);
+            
+            pintarLista();
+        }
+        catch (infanteExcepcion ex)
+            {
+                JsfUtil.addErrorMessage(ex.getMessage());
+            }
+        
+    }
 }

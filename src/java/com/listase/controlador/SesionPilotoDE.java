@@ -5,7 +5,7 @@
  */
 package com.listase.controlador;
 
-import com.listase.excepciones.PilotoExcepcion;
+import com.listase.excepciones.pilotoExcepcion;
 import com.listase.modelo.Piloto;
 import com.listase.modelo.ListaDE;
 import com.listase.modelo.NodoDE;
@@ -95,14 +95,9 @@ public class SesionPilotoDE implements Serializable {
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         listaPilotos = new ListaDE();        
         //LLenado de la bds
-        listaPilotos.adicionarNodo(new Piloto("Carlitos",(short) 1, (byte)2, true, controlLocalidades.getCiudades().get(0).getNombre()));
-        listaPilotos.adicionarNodo(new Piloto("Juanita",(short) 2, (byte)3, true, controlLocalidades.getCiudades().get(2).getNombre()));
-        listaPilotos.adicionarNodo(new Piloto("Martina",(short) 3, (byte)1, false, controlLocalidades.getCiudades().get(0).getNombre()));
-        listaPilotos.adicionarNodoAlInicio(new Piloto("Mariana",(short) 4, (byte)5, false, controlLocalidades.getCiudades().get(1).getNombre()));
         ayudante = listaPilotos.getCabeza();
         piloto = ayudante.getReferencia();     
         //Me llena el objeto List para la tabla
-        listadoPilotos = listaPilotos.obtenerListaPilotos();
         pintarLista();       
         
     }
@@ -187,22 +182,7 @@ public class SesionPilotoDE implements Serializable {
     
     
     
-    public void guardarPiloto()
-    {
-        piloto.setCodigo((short)(listaPilotos.contarNodos()+1));
-        if(alInicio.compareTo("1")==0)
-        {
-            listaPilotos.adicionarNodoAlInicio(piloto);
-        }
-        else
-        {
-            listaPilotos.adicionarNodo(piloto);
-        }  
-        //Vuelvo a llenar la lista para la tabla
-        irPrimero();
-        JsfUtil.addSuccessMessage("El piloto se ha guardado correctamente");
-        
-    }
+  
     
     public void habilitarFormulario()
     {
@@ -239,7 +219,6 @@ public class SesionPilotoDE implements Serializable {
         {
             piloto = new Piloto();
         }
-        listadoPilotos = listaPilotos.obtenerListaPilotos();
         pintarLista();
     }
     
@@ -321,6 +300,10 @@ public class SesionPilotoDE implements Serializable {
         System.out.println(pilotoSeleccionado);
     }
     
+    public void obtenerPilotoDiagrama()
+    {
+       
+    }
  
     
 }

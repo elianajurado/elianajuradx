@@ -9,9 +9,9 @@ package com.listase.excepciones;
  *
  * @author elianajuradx
  */
-public class PilotoExcepcion extends Exception{
+public class pilotoExcepcion extends Exception{
     
-    public PilotoExcepcion(String message) {
+    public pilotoExcepcion(String message) {
         super(message);
     }
     

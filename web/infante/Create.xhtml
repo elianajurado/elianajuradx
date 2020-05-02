@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InfanteCreateDlg" widgetVar="InfanteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInfanteTitle}">
+            <h:form id="InfanteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{infanteController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateInfanteLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{infanteController.selected.codigo}" title="#{bundle.CreateInfanteTitle_codigo}" required="true" requiredMessage="#{bundle.CreateInfanteRequiredMessage_codigo}"/>
+                        <p:outputLabel value="#{bundle.CreateInfanteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{infanteController.selected.nombre}" title="#{bundle.CreateInfanteTitle_nombre}" required="true" requiredMessage="#{bundle.CreateInfanteRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.CreateInfanteLabel_edad}" for="edad" />
+                        <p:inputText id="edad" value="#{infanteController.selected.edad}" title="#{bundle.CreateInfanteTitle_edad}" required="true" requiredMessage="#{bundle.CreateInfanteRequiredMessage_edad}"/>
+                        <p:outputLabel value="#{bundle.CreateInfanteLabel_ciudadNacimiento}" for="ciudadNacimiento" />
+                        <p:inputText id="ciudadNacimiento" value="#{infanteController.selected.ciudadNacimiento}" title="#{bundle.CreateInfanteTitle_ciudadNacimiento}" required="true" requiredMessage="#{bundle.CreateInfanteRequiredMessage_ciudadNacimiento}"/>
+                        <p:outputLabel value="#{bundle.CreateInfanteLabel_genero}" for="genero" />
+                        <p:selectBooleanCheckbox id="genero" value="#{infanteController.selected.genero}" required="true" requiredMessage="#{bundle.EditInfanteRequiredMessage_genero}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{infanteController.create}" value="#{bundle.Save}" update="display,:InfanteListForm:datalist,:growl" oncomplete="handleSubmit(args,'InfanteCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="InfanteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

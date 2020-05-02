@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Eliana Jurado</title>
         <style type="text/css">
@@ -39,10 +40,9 @@
         
 
         </h:head>
-    <h:body>
-        <p:growl id="grwlErrores"/>
-        <h:form id="frmInfante">
-           <p:commandButton value="ListaSE" action="inicioListas.xhtml" ajax="false"/>
+    <ui:composition template="/template.xhtml">
+        <ui:define name="body">
+             <h:form id="frmInfante">
             <p:panel header="Lista Simplemente Enlazada Infantes - Total Infantes #{sesionInfante.listaInfantes.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Infante">
@@ -76,7 +76,7 @@
                             </p:selectOneMenu>
 
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
+                        <p:commandButton value="Guardar" update="frmInfante,:growl"
                                          action="#{sesionInfante.guardarInfante()}" disabled="#{sesionInfante.deshabilitarFormulario}"/>
                         
                         <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfante.habilitarFormulario()}"
@@ -90,12 +90,13 @@
                             <p:commandButton value="Último" action="#{sesionInfante.irUltimo()}" 
                                              update="frmInfante"/>
                             <p:commandButton value="Invertir" action="#{sesionInfante.invertirLista()}" 
-                                             update="frmInfante"/>                           
+                                             update="frmInfante"/>    
+                            
                             
                         </p:panelGrid><br/>
                         <p:outputLabel value="Código eliminar: "/>
                         <p:inputText value="#{sesionInfante.codigoEliminar }" maxlength="4" size="10"/>
-                        <p:commandButton value="Eliminar" action="#{sesionInfante.eliminarInfante()}" update="frmInfante,:grwlErrores"/>
+                        <p:commandButton value="Eliminar" action="#{sesionInfante.eliminarInfante()}" update="frmInfante,:growl"/>
                     </p:panel>
                     <p:panel header="Datos">
                         <p:outputLabel value="Cantidad de Hombres: #{sesionInfante.listaInfantes.contarInfantesxGenero(true)}"/> <br/> 
@@ -196,6 +197,7 @@
             </h:panelGrid>
         </p:panel>
         </p:dialog> 
-    </h:body>
+        </ui:define>
+    </ui:composition>
 </html>
 

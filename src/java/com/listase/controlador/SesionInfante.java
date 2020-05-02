@@ -372,5 +372,30 @@ public class SesionInfante implements Serializable {
             }
         
     }
+    public void eliminarInfanteM()
+    {
+        try {
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            irPrimero();
+        } catch (infanteExcepcion ex) {
+           JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void adelantarInfante(){
+        try
+        {
+            Infante InfTemporal = listaInfantes.obtenerInfante(infanteSeleccionado);
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            listaInfantes.adicionarNodoAlInicio(InfTemporal);
+            
+            pintarLista();
+        }
+        catch (infanteExcepcion ex)
+            {
+                JsfUtil.addErrorMessage(ex.getMessage());
+            }
+
+    }
 
 }

@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous"/>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+        <title>Motogp</title>
+        <style type="text/css">
+            .ui-diagram-element {   
+                width:8em; 
+                height:4em;     
+                line-height:10em;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+                border-radius: 1px;
+                border: 1px solid transparent;
+                background:url(../imagen/moto.png) no-repeat scroll left center transparent;  
+                background-size: 100px 100px;              
+                
+            }
+
+            .ui-diagram-success {
+                background-color: black;
+                color: #ffffff;
+                border-color: black;
+            }
+
+            .ui-diagram-fail {
+                background-color: black;
+                color: #ffffff;
+            }
+
+            .flow-label {
+                font-size: 20px;
+                font-weight: bold;
+                color: black;
+                
+            .grass{
+                height:100px !important;
+                width: 100% !important;
+                background-color: #7cfc00 !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="frmInfante">
+            <p:commandButton value="Volver" action="Inicio" ajax="false"/>
+            <p:panel header="Numero de pilotos #{sesionInfante.listaInfantes.contarNodos()}">
+        <p:growl id="grwlErrores"/>
+        <div class="grass"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>Controles</h3>
+                    <div>
+                        <p:commandButton value="Primero" action="#{sesionInfante.irPrimero()}" 
+                                              update="frmInfante"/>
+                        <p:commandButton value="Siguiente" action="#{sesionInfante.irSiguiente()}"
+                                             update="frmInfante"/>       
+                        <p:commandButton value="Último" action="#{sesionInfante.irUltimo()}" 
+                                             update="frmInfante"/>
+                        <p:commandButton value="Invertir" action="#{sesionInfante.invertirLista()}" 
+                                             update="frmInfante"/>   
+                            
+                    </div>                  
+                </div>
+                <div class="col-md-9">
+                    <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
+                        
+                        <p:dataTable rendered="#{sesionInfante.textoVista=='Gráfico'}"  value="#{sesionInfante.listadoInfantes}" var="inf">
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Código"/>
+                                </f:facet>
+                                <p:outputLabel value="#{inf.codigo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Nombre"/>
+                                </f:facet>
+                                <p:outputLabel value="#{inf.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Edad"/>
+                                </f:facet>
+                                <p:outputLabel value="#{inf.edad}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Genero"/>
+                                </f:facet>
+                                <p:outputLabel rendered="#{inf.genero}" value="Masculino"/>
+                                <p:outputLabel rendered="#{!inf.genero}" value="Femenino"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <p:outputLabel value="Ciudad de nacimiento"/>
+                                </f:facet>
+                                <p:outputLabel value="#{inf.ciudadNacimiento}"/>
+                            </p:column>
+                        </p:dataTable>
+                        
+                        <p:diagram id="diagrama" rendered="#{sesionInfante.textoVista=='Tabla'}" 
+                                   value="#{sesionInfante.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" /> 
+                        <p:remoteCommand name="elementClickRight" 
+                                     actionListener="#{sesionInfante.onClickRight()}" 
+                                     >
+                        </p:remoteCommand>
+                        
+                        <script>
+                $(document).ready(function () {
+                    $('.ui-diagram > .ui-diagram-element').mousedown(function (info) {
+                        if (info.which === 3) {
+                            elementClickRight([{
+                                    name: 'elementId',
+                                    value: info.target.id
+                                }]);
+                            
+                        }
+                    });
+                });
+            </script>
+
+                        <p:contextMenu id="mnuDiagrama" for="diagrama"
+                                   targetFilter=".ui-diagram-element"
+                                   >
+                        <p:menuitem value="Ver datos" 
+                                    action="#{sesionInfante.obtenerInfanteDiagrama()}" 
+                                    update="panelInfante"                                    
+                                    oncomplete="PF('dlgDatosInfante').show();" />
+
+                        <p:menuitem value="Eliminar"/>
+                        <p:menuitem value="Enviar al final" update="pnlVista" action="#{sesionInfante.enviarAlFinal()}"/>
+                        <p:menuitem value="Enviar al inicio" update="pnlVista" action="#{sesionInfante.enviarAlInicio()}"/>
+                        <p:menuitem value="Adelantar/Perder Posición"/>
+                    </p:contextMenu>
+                    </p:panel>
+
+                        
+ 
+                    <p:dialog header="Datos Infante" widgetVar="dlgDatosInfante" 
+                  modal="true" height="100">
+                        <p:panel id="panelInfante">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Código:" />
+                                <h:outputText value="#{sesionInfante.infanteDiagrama.codigo}" />
+                                <h:outputText value="Nombre:" />
+                                <h:outputText value="#{sesionInfante.infanteDiagrama.nombre}" />
+                                <h:outputText value="Género:" />
+                                <h:outputText rendered="#{sesionInfante.infanteDiagrama.genero}" value="Masculino" />
+                                <h:outputText rendered="#{!sesionInfante.infanteDiagrama.genero}" value="Femenino" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:dialog> 
+                </div>   
+            </div>
+        </div>
+        <div class="grass"/>
+            </p:panel>
+         </h:form>
+    </h:body>
+</html>
+

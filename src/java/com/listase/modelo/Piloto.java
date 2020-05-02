@@ -13,7 +13,7 @@ public class Piloto {
     private String nombre; //null
     private short codigo; //0
     private byte edad; //0
-    private boolean genero;
+    private boolean moto;
     private String ciudadNacimiento;
 
     public String getCiudadNacimiento() {
@@ -24,23 +24,23 @@ public class Piloto {
         this.ciudadNacimiento = ciudadNacimiento;
     }
 
-    public boolean isGenero() {
-        return genero;
+    public boolean isMoto() {
+        return moto;
     }
 
-    public void setGenero(boolean genero) {
-        this.genero = genero;
+    public void setMoto(boolean moto) {
+        this.moto = moto;
     }
 
     public Piloto() {
         this.edad=1;
     }    
     
-    public Piloto(String nombre, short codigo, byte edad, boolean genero, String ciudadNacimiento) {
+    public Piloto(String nombre, short codigo, byte edad, boolean moto, String ciudadNacimiento) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.edad = edad;
-        this.genero = genero;
+        this.moto = moto;
         this.ciudadNacimiento = ciudadNacimiento;
     }
 

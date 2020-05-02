@@ -14,10 +14,19 @@ import java.io.Serializable;
 public class Nodo implements Serializable{
     private Infante dato;
     private Nodo siguiente;
-
+    private Piloto referencia;
+    
     public Nodo(Infante dato) {
         this.dato = dato;
     }
+    
+    public Piloto getReferencia() {
+    return referencia;
+    }
+
+    public void setDato(Piloto referencia) {
+        this.referencia = referencia;
+    }   
 
     public Infante getDato() {
         return dato;
