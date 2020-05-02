@@ -323,29 +323,6 @@ private ListaDE listaInfantes;
     }
 
     
-    public void eliminarInfante()
-    {
-        if(codigoEliminar >0)
-        {
-            try {
-                listaInfantes.eliminarInfante(codigoEliminar);
-                irPrimero();
-                infante= listaInfantes.getCabeza().getDato();
-                JsfUtil.addSuccessMessage("Infante " +codigoEliminar+ " eliminado");
-            } catch (infanteExcepcion e) {
-                JsfUtil.addErrorMessage(e.getMessage());
-            }
-{
-            
-            }
-        }
-  
-        else
-        {
-            JsfUtil.addErrorMessage("El código a elminar: " +codigoEliminar+ " No es válido" );
-        }
-    }
-    
     public void obtenerInfanteDiagrama()
     {
         try {
@@ -392,8 +369,6 @@ private ListaDE listaInfantes;
             Infante InfTemporal = listaInfantes.obtenerInfante(infanteSeleccionado);
             ayudante = ayudante.getSiguiente().getSiguiente();
             infante = ayudante.getDato();
-            listaInfantes.eliminarInfante(infanteSeleccionado);
-            listaInfantes.adicionarNodoAlInicio(InfTemporal);
             
             pintarLista();
         }
@@ -402,5 +377,28 @@ private ListaDE listaInfantes;
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
         
+    }
+    
+    public void eliminarInfante()
+    {
+        if(codigoEliminar >0)
+        {
+            try {
+                listaInfantes.eliminarInfante(codigoEliminar);
+                irPrimero();
+                infante= listaInfantes.getCabeza().getDato();
+                JsfUtil.addSuccessMessage("Infante " +codigoEliminar+ " eliminado");
+            } catch (infanteExcepcion e) {
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+{
+            
+            }
+        }
+  
+        else
+        {
+            JsfUtil.addErrorMessage("El código: " +codigoEliminar+ " No es válido" );
+        }
     }
 }
