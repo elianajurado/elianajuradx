@@ -40,9 +40,9 @@
         
 
         </h:head>
-        <h:body>
-        <p:growl id="grwlErrores"/>
-        <h:form id="frmInfante">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="body">
+            <h:form id="frmInfante">
            <p:commandButton value="Volver" action="Inicio"/>
            <p:panel header="Lista Doblemente Enlazada Infantes - Total Infantes #{sesionInfateDE.listaInfantes.contarNodos()}">
                 <p:panelGrid columns="2">
@@ -77,7 +77,7 @@
                             </p:selectOneMenu>
 
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
+                        <p:commandButton value="Guardar" update="frmInfante,:growl"
                                          action="#{sesionInfateDE.guardarInfante()}" disabled="#{sesionInfateDE.deshabilitarFormulario}"/>
                         
                         <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfateDE.habilitarFormulario()}"
@@ -98,7 +98,7 @@
                         </p:panelGrid><br/>
                         <p:outputLabel value="Código eliminar: "/>
                         <p:inputText value="#{sesionInfateDE.codigoEliminar }" maxlength="4" size="10"/>
-                        <p:commandButton value="Eliminar" action="#{sesionInfateDE.eliminarInfante()}" update="frmInfante,:grwlErrores"/>
+                        <p:commandButton value="Eliminar" action="#{sesionInfateDE.eliminarInfante()}" update="frmInfante,:growl"/>
                     </p:panel>
                     <p:panel header="Datos">
                         <p:outputLabel value="Cantidad de Hombres: #{sesionInfateDE.listaInfantes.contarInfantesxGenero(true)}"/> <br/> 
@@ -197,7 +197,8 @@
             </h:panelGrid>
         </p:panel>
         </p:dialog> 
-    </h:body>
+        </ui:define>
+    </ui:composition>
 
 
 </html>
