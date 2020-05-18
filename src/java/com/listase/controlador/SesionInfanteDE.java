@@ -7,7 +7,7 @@ package com.listase.controlador;
  */
 
 import com.listase.controlador.ControladorLocalidades;
-import com.listase.excepciones.infanteExcepcion;
+import com.listase.excepciones.InfanteExcepcion;
 import com.listase.modelo.Infante;
 import com.listase.modelo.ListaDE;
 import com.listase.modelo.NodoDE;
@@ -49,7 +49,73 @@ private ListaDE listaInfantes;
     private String codigoDeptoSel;
     private short infanteSeleccionado;
     private Infante InfanteDiagrama;
+    private short moverInfanteCantidad;    
+    private Infante infanteMenorEdad;    
+    private Infante posicionInfante;
+    private int pos1;
+    private int pos2;    
+    private int posInfante;
+    private String opcionElegida="1";
+    private  int  numeroPosicion=1;
+    private short posicionBuscar;
+    private short codInfante;
 
+    public int getPosInfante() {
+        return posInfante;
+    }
+
+    public void setPosInfante(int posInfante) {
+        this.posInfante = posInfante;
+    }
+    
+    public short getPosicionBuscar() {
+        return posicionBuscar;
+    }
+
+    public void setPosicionBuscar(short posicionBuscar) {
+        this.posicionBuscar = posicionBuscar;
+    }    
+    
+    public int getNumeroPosicion() {
+        return numeroPosicion;
+    }
+
+    public void setNumeroPosicion(int numeroPosicion) {
+        this.numeroPosicion = numeroPosicion;
+    }    
+    
+    public String getOpcionElegida() {
+        return opcionElegida;
+    }
+
+    public void setOpcionElegida(String opcionElegida) {
+        this.opcionElegida = opcionElegida;
+    }
+       
+    public int getPos1() {
+        return pos1;
+    }
+
+    public void setPos1(int pos1) {
+        this.pos1 = pos1;
+    }
+
+    public int getPos2() {
+        return pos2;
+    }
+
+    public void setPos2(int pos2) {
+        this.pos2 = pos2;
+    }
+    
+    public Infante getPosicionInfante() {
+        return posicionInfante;
+    }
+
+    public void setPosicionInfante(Infante posicionInfante) {
+        this.posicionInfante = posicionInfante;
+    }
+      
     public Infante getInfanteDiagrama() {
         return InfanteDiagrama;
     }
@@ -327,7 +393,7 @@ private ListaDE listaInfantes;
     {
         try {
             InfanteDiagrama = listaInfantes.obtenerInfante(infanteSeleccionado);
-        } catch (infanteExcepcion ex) {
+        } catch (InfanteExcepcion ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -341,7 +407,7 @@ private ListaDE listaInfantes;
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
@@ -357,7 +423,7 @@ private ListaDE listaInfantes;
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
@@ -372,7 +438,7 @@ private ListaDE listaInfantes;
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
@@ -388,7 +454,7 @@ private ListaDE listaInfantes;
                 irPrimero();
                 infante= listaInfantes.getCabeza().getDato();
                 JsfUtil.addSuccessMessage("Infante " +codigoEliminar+ " eliminado");
-            } catch (infanteExcepcion e) {
+            } catch (InfanteExcepcion e) {
                 JsfUtil.addErrorMessage(e.getMessage());
             }
 {
@@ -401,4 +467,186 @@ private ListaDE listaInfantes;
             JsfUtil.addErrorMessage("El código: " +codigoEliminar+ " No es válido" );
         }
     }
+    
+     public void obtenerPosicionInfante()
+    {
+        try {
+            posInfante = listaInfantes.obtenerPosicionInfante(infanteSeleccionado);
+        } catch (InfanteExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+     
+     public void eliminarInfanteseleccionado()
+    {
+             try {
+            ///Buscar el infante y guardar los datos en una variable temporal
+            Infante infTemporal = listaInfantes.obtenerInfante(infanteSeleccionado);
+            // Eliminar el nodo
+            listaInfantes.eliminarInfante(infanteSeleccionado);
+            pintarLista();
+        } catch (InfanteExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+     
+    public void adelantarPos(NodoDE temp, int posAd) {
+        int cont = 0;
+        NodoDE tempA = temp;
+
+        while ((cont < posAd) && (tempA != null)) {
+            tempA = temp;
+            cont++;
+        }
+        if (tempA != null) {
+            tempA = temp.getSiguiente();
+            cont = 0;
+            NodoDE tempIn= new NodoDE(infante);
+
+            while (cont < posAd) {
+                tempIn.setDato(tempA.getDato());
+                tempA.setDato(temp.getDato());
+                temp.setDato(tempIn.getDato());
+                tempA = tempA.getSiguiente();
+                temp = temp.getSiguiente();
+                cont++;
+            }
+
+        }
+    }
+    
+    public void perderPos(NodoDE temp, int posAd) {
+        int cont = 0;
+        NodoDE tempA = temp;
+
+        //mientras que
+        while ((cont < posAd) && (tempA != null)) {
+            tempA = temp;
+            cont++;
+        }//fin del mientras que
+
+        //Inicio del si
+        if (tempA != null) {
+            tempA = temp.getAnterior();
+            cont = 0;
+            //inicio del mientras que
+            NodoDE tempIn= new NodoDE(infante);
+
+            while (cont < posAd) {
+                tempIn.setDato(tempA.getDato());
+                tempA.setDato(temp.getDato());
+                temp.setDato(tempIn.getDato());
+                tempA = tempA.getAnterior();
+                temp = temp.getAnterior();
+                cont++;
+            }//fin del mientras que
+
+        }//fin del si
+    }
+    
+    public void actualizarMenorEdad() throws InfanteExcepcion{
+        byte menorEdad= 0 ;
+        String nombreEdad="";
+        nombreEdad= listaInfantes.obtenerMenorEdad();
+        NodoDE temp =   listaInfantes.getCabeza();
+        while(temp!=null){
+            if (temp.getDato().getEdad() == menorEdad) {
+                infanteMenorEdad= temp.getDato();              
+                               
+            }
+           
+            temp= temp.getSiguiente();
+       
+        }
+        
+    }
+    
+    public void guardarInfantePos()
+    {
+         infante.setCodigo((short)(listaInfantes.contarNodos()+1));
+        try {
+             if(alInicio.compareTo("1")==0)
+        {
+            listaInfantes.adicionarPosicion(posicionBuscar,infante);
+        }
+        else
+        {
+            listaInfantes.adicionarNodo(infante);
+        }  
+        listadoInfantes = listaInfantes.obtenerListaInfantes();
+        pintarLista();
+        deshabilitarFormulario=true;
+        JsfUtil.addSuccessMessage("El infante se ha guardado exitosamente");
+        } catch (Exception e) {
+               JsfUtil.addErrorMessage("no se puede");
+        }            
+        
+    }
+    
+         public void retornarPosicion(){
+         
+             if(codInfante >-+0)   {
+            //llamo el eliminar de la lista
+            try{
+                
+                JsfUtil.addSuccessMessage(" la posicion del Infante es "+ listaInfantes.obtenerPosicion(codInfante));
+            }
+            catch(InfanteExcepcion e)
+            {
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+        }
+        else
+        {
+            JsfUtil.addErrorMessage("no existe");
+        }
+    }
+    
+     
+     public void cambiarPosicion()
+    {
+        boolean bandera=false;
+        int posicionFinal=0;
+        switch(opcionElegida)
+        {
+            //Ganar
+            case "1":
+                if(numeroPosicion <= (posInfante-1) )
+                {
+                    bandera=true;
+                    posicionFinal = posInfante - numeroPosicion;
+                }
+                break;
+            //Perder
+            case "0":
+                if(numeroPosicion <= (listaInfantes.contarNodos()-posInfante))
+                {
+                    bandera=true;
+                    posicionFinal = posInfante + numeroPosicion;
+                }
+                break;
+        }
+        
+        if(bandera)
+        {
+            try {
+                Infante datosInfante = listaInfantes.obtenerInfante(infanteSeleccionado);
+                listaInfantes.eliminarInfante(infanteSeleccionado);
+                listaInfantes.adicionarNodoPosicion(posicionFinal, datosInfante);
+                irPrimero();
+                JsfUtil.addSuccessMessage("Se ha realizado el cambio");
+                
+                
+            } catch (InfanteExcepcion ex) {
+               JsfUtil.addErrorMessage(ex.getMessage());
+            }
+            
+        }
+        else
+        {
+            JsfUtil.addErrorMessage("El número de posiciones no es válido para el infante dado");
+        }
+    }
+    
+    
 }

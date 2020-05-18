@@ -5,7 +5,8 @@
  */
 package com.listase.modelo;
 
-import com.listase.excepciones.infanteExcepcion;
+import com.listase.excepciones.PilotoExcepcion;
+import com.listase.excepciones.InfanteExcepcion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class ListaSE implements Serializable{
     private Nodo cabeza;
+    
 
     public ListaSE() {
     }
@@ -191,7 +193,7 @@ public class ListaSE implements Serializable{
         }
     }
     
-    public void eliminarInfante(short codigo) throws infanteExcepcion
+    public void eliminarInfante(short codigo) throws InfanteExcepcion
     {
         if(cabeza !=null)
         {
@@ -212,12 +214,12 @@ public class ListaSE implements Serializable{
                     }
                     temp= temp.getSiguiente();
                 }
-                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+                throw new InfanteExcepcion("El código: "+codigo+ " No existe en la lista");
             }
         }
-        throw new infanteExcepcion("La lista de infantes está vacia");
+        throw new InfanteExcepcion("La lista de infantes está vacia");
     }
-    public Infante obtenerInfante(short codigo) throws infanteExcepcion
+    public Infante obtenerInfante(short codigo) throws InfanteExcepcion
     {
         if(cabeza !=null)
         {
@@ -236,10 +238,9 @@ public class ListaSE implements Serializable{
                     }
                     temp= temp.getSiguiente();
                 }
-                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+                throw new InfanteExcepcion("El código: "+codigo+ " No existe en la lista");
             }
         }
-        throw new infanteExcepcion("La lista de infantes está vacia");
+        throw new InfanteExcepcion("La lista de infantes está vacia");
     }  
-
 }

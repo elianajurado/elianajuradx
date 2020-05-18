@@ -5,7 +5,7 @@
  */
 package com.listase.controlador;
 
-import com.listase.excepciones.infanteExcepcion;
+import com.listase.excepciones.InfanteExcepcion;
 import com.listase.modelo.Infante;
 import com.listase.modelo.ListaSE;
 import com.listase.modelo.Nodo;
@@ -317,7 +317,7 @@ public class SesionInfante implements Serializable {
                 irPrimero();
                 infante= listaInfantes.getCabeza().getDato();
                 JsfUtil.addSuccessMessage("Infante " +codigoEliminar+ " eliminado");
-            } catch (infanteExcepcion e) {
+            } catch (InfanteExcepcion e) {
                 JsfUtil.addErrorMessage(e.getMessage());
             }
 {
@@ -335,7 +335,7 @@ public class SesionInfante implements Serializable {
     {
         try {
             InfanteDiagrama = listaInfantes.obtenerInfante(infanteSeleccionado);
-        } catch (infanteExcepcion ex) {
+        } catch (InfanteExcepcion ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -350,7 +350,7 @@ public class SesionInfante implements Serializable {
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
@@ -366,7 +366,7 @@ public class SesionInfante implements Serializable {
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }
@@ -377,7 +377,7 @@ public class SesionInfante implements Serializable {
         try {
             listaInfantes.eliminarInfante(infanteSeleccionado);
             irPrimero();
-        } catch (infanteExcepcion ex) {
+        } catch (InfanteExcepcion ex) {
            JsfUtil.addErrorMessage(ex.getMessage());
         }
     }
@@ -391,7 +391,7 @@ public class SesionInfante implements Serializable {
             
             pintarLista();
         }
-        catch (infanteExcepcion ex)
+        catch (InfanteExcepcion ex)
             {
                 JsfUtil.addErrorMessage(ex.getMessage());
             }

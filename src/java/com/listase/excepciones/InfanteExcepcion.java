@@ -9,10 +9,10 @@ package com.listase.excepciones;
  *
  * @author elianajuradx
  */
-public class infanteExcepcion extends Exception
+public class InfanteExcepcion extends Exception
 {
 
-    public infanteExcepcion(String message) {
+    public InfanteExcepcion(String message) {
         super(message);
     }
     

@@ -5,7 +5,7 @@
  */
 package com.listase.modelo;
 
-import com.listase.excepciones.infanteExcepcion;
+import com.listase.excepciones.InfanteExcepcion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +193,7 @@ public class ListaDE implements Serializable{
         }
     }
     
-    public void eliminarInfante(short codigo) throws infanteExcepcion
+    public void eliminarInfante(short codigo) throws InfanteExcepcion
     {
         if(cabeza !=null)
         {
@@ -217,13 +217,13 @@ public class ListaDE implements Serializable{
                     }
                     temp= temp.getSiguiente();
                 }
-                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+                throw new InfanteExcepcion("El código: "+codigo+ " No existe en la lista");
             }
         }
-        throw new infanteExcepcion("La lista de infantes está vacia");
+        throw new InfanteExcepcion("La lista de infantes está vacia");
     }
     
-    public Infante obtenerInfante(short codigo) throws infanteExcepcion
+    public Infante obtenerInfante(short codigo) throws InfanteExcepcion
     {
         if(cabeza !=null)
         {
@@ -242,9 +242,169 @@ public class ListaDE implements Serializable{
                     }
                     temp= temp.getSiguiente();
                 }
-                throw new infanteExcepcion("El código: "+codigo+ " No existe en la lista");
+                throw new InfanteExcepcion("El código: "+codigo+ " No existe en la lista");
             }
         }
-        throw new infanteExcepcion("La lista de infantes está vacia");
+        throw new InfanteExcepcion("La lista de infantes está vacia");
+    }
+
+    public Infante obtenerPosicion(short infanteSeleccionado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public String obtenerMenorEdad() throws InfanteExcepcion {
+      
+        if (cabeza == null) {
+            throw new InfanteExcepcion("La lista de los infantes esta vacia");
+
+        } else {
+            NodoDE temp = cabeza;
+            byte menor = temp.getDato().getEdad();
+              String a=temp.getDato().getNombre();
+            while (temp != null) {
+                if (temp.getDato().getEdad() < menor) {
+                    menor = temp.getDato().getEdad();
+                    a = temp.getDato().getNombre();
+                    
+                    
+                }
+                temp = temp.getSiguiente();
+            }
+            return a;
+        }
+    }
+    
+    public int cantidad ()
+    {
+        int cant = 0;
+        NodoDE reco = this.cabeza;
+        while (reco != null) {
+            reco = reco.getSiguiente();
+            cant++;
+        }
+        return cant;
+    }
+
+   public void adicionarPosicion(int pos, Infante x)
+    {
+        if (pos <= cantidad () + 1)    {
+            NodoDE nuevo = new NodoDE(x);
+           
+            if (pos == 1){
+                nuevo.setSiguiente(this.cabeza); 
+                if (this.cabeza!=null)
+                    
+                this.cabeza.setAnterior(nuevo);
+                this.cabeza = nuevo;
+            } else
+                if (pos == cantidad () + 1)    {
+                    NodoDE reco = this.cabeza;
+                    while (reco.getSiguiente() != null) {
+                        reco = reco.getSiguiente();
+                    }
+                    reco.setSiguiente(nuevo);
+                    nuevo.setAnterior(reco);
+                    nuevo.setSiguiente(null);
+                } else {
+                    NodoDE reco = this.cabeza;
+                    for (int f = 1 ; f <= pos - 2 ; f++)
+                        reco = reco.getSiguiente();
+                    NodoDE siguiente = reco.getSiguiente();
+                    reco.setSiguiente(nuevo) ;
+                    nuevo.setAnterior(reco);
+                    nuevo.setSiguiente(siguiente); 
+                    siguiente.setAnterior(nuevo);
+                }
+        }
+    }
+    
+    public short obtenerPosicionI(short codigo)throws InfanteExcepcion{
+        
+        if(cabeza==null){
+            throw new InfanteExcepcion("La lista de infantes esta vacia");
+            
+        } else{
+            NodoDE temp= cabeza;
+            short cont= 1;
+            while(temp !=null){
+                if(temp.getDato().getCodigo()== codigo){
+                    return cont;
+                }
+                temp= temp.getSiguiente();
+                cont++;
+            }
+            throw new InfanteExcepcion("El codigo"+codigo+"No existe en la lista");
+        }
+    }
+    
+    public void adicionarNodoPosicion(int posicion, Infante dato) throws InfanteExcepcion {
+        if (cabeza != null) {
+            if (posicion == 1) {
+                adicionarNodoAlInicio(dato);               
+            } else {
+                int cont = 1;
+                NodoDE temp = cabeza;
+                while (temp != null) {
+                    if ((posicion - 1) == cont) {
+                        NodoDE nodoInsertar = new NodoDE(dato);
+                        nodoInsertar.setSiguiente(temp.getSiguiente());
+                        temp.setSiguiente(nodoInsertar);
+                        if(nodoInsertar.getSiguiente()!=null)
+                            nodoInsertar.getSiguiente().setAnterior(nodoInsertar);
+                        nodoInsertar.setAnterior(temp);
+                        break ;
+                    }
+                    temp = temp.getSiguiente();
+                    cont++;
+                }
+            }
+        }
+        else{
+            throw new InfanteExcepcion(("La lista está vacía"));
+        }
+    }
+
+    public int obtenerPosicionInfante(short codigo) throws InfanteExcepcion {
+        if (cabeza != null) {
+            int cont = 1;
+            NodoDE temp = cabeza;
+            while (temp != null) {
+                if (temp.getDato().getCodigo() == codigo) {
+                    return cont;
+                }
+                temp = temp.getSiguiente();
+                cont++;
+            }
+            throw new InfanteExcepcion("El código ingresado no ");
+
+        }
+        throw new InfanteExcepcion("La lista de infantes está vacía");
+    }
+    public void intercambiarNodos(byte datoA, byte datoB) throws InfanteExcepcion{
+        if (cabeza != null){
+            throw new InfanteExcepcion("La lista de infantes está vacía");
+        } else {
+            NodoDE temp = cabeza;
+            Infante tempDatoA = null;
+            Infante tempDatoB = null;
+            while (temp!=null) {
+                if (temp.getDato().getCodigo() == datoA){
+                    tempDatoA=temp.getDato();
+                }
+                else if (temp.getDato().getCodigo() == datoB) {
+                    tempDatoB=temp.getDato();
+                }
+                temp = temp.getSiguiente();
+            }
+            
+            if ( tempDatoA==null || tempDatoB==null)
+                throw new InfanteExcepcion("Alguno de los datos son erroneos");
+            
+            Infante infanteTemp = tempDatoA;
+            tempDatoA = tempDatoB;
+            tempDatoB = infanteTemp;
+            
+        }
+    
     }
 }

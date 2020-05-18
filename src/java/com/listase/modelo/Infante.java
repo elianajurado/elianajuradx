@@ -17,6 +17,15 @@ public class Infante implements  Serializable{
     private byte edad; //0
     private boolean genero;
     private String ciudadNacimiento;
+    private short posicion;
+
+    public short getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(short posicion) {
+        this.posicion = posicion;
+    }
 
     public String getCiudadNacimiento() {
         return ciudadNacimiento;
