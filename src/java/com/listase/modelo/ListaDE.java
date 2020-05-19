@@ -248,9 +248,6 @@ public class ListaDE implements Serializable{
         throw new InfanteExcepcion("La lista de infantes está vacia");
     }
 
-    public Infante obtenerPosicion(short infanteSeleccionado) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public String obtenerMenorEdad() throws InfanteExcepcion {
       
@@ -318,7 +315,7 @@ public class ListaDE implements Serializable{
         }
     }
     
-    public short obtenerPosicionI(short codigo)throws InfanteExcepcion{
+    public short obtenerPosicion(short codigo)throws InfanteExcepcion{
         
         if(cabeza==null){
             throw new InfanteExcepcion("La lista de infantes esta vacia");
@@ -375,7 +372,7 @@ public class ListaDE implements Serializable{
                 temp = temp.getSiguiente();
                 cont++;
             }
-            throw new InfanteExcepcion("El código ingresado no ");
+            throw new InfanteExcepcion("El código ingresado no existe ");
 
         }
         throw new InfanteExcepcion("La lista de infantes está vacía");
@@ -407,4 +404,28 @@ public class ListaDE implements Serializable{
         }
     
     }
+    
+    public Infante obtenerInfanteMenorEdad() throws InfanteExcepcion
+    {
+        if(cabeza !=null)
+        {
+            Infante menor = cabeza.getDato();
+            NodoDE temp = cabeza;
+            while (temp !=null) 
+            {
+                if(temp.getDato().getEdad()< menor.getEdad())
+                {
+                    menor = temp.getDato();
+                }
+                temp = temp.getSiguiente();
+            }
+            return menor;
+        }
+        throw new InfanteExcepcion("La lista de infantes esta vacio"); 
+    }
+    
 }
+
+
+      
+    
