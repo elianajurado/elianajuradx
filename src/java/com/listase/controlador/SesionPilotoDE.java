@@ -7,8 +7,8 @@ package com.listase.controlador;
 
 import com.listase.excepciones.PilotoExcepcion;
 import com.listase.modelo.Piloto;
-import com.listase.modelo.ListaDE;
-import com.listase.modelo.NodoDE;
+import com.listase.modelo.ListapDE;
+import com.listase.modelo.NodopDE;
 import com.listase.utilidades.JsfUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -35,11 +35,11 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 @SessionScoped
 public class SesionPilotoDE implements Serializable {
 
-    private ListaDE listaPilotos;
+    private ListapDE listaPilotos;
     private Piloto piloto;
     private String alInicio="1";
     private boolean deshabilitarFormulario=true;
-    private NodoDE ayudante;   
+    private NodopDE ayudante;   
     private String textoVista="Gráfico";   
     private List listadoPilotos;    
     private DefaultDiagramModel model;    
@@ -93,10 +93,10 @@ public class SesionPilotoDE implements Serializable {
     {
         controlLocalidades= new ControladorLocalidades();
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
-        listaPilotos = new ListaDE();        
+        listaPilotos = new ListapDE();        
         //LLenado de la bds
         ayudante = listaPilotos.getCabeza();
-        piloto = ayudante.getReferencia();     
+        piloto = ayudante.getDato();     
         //Me llena el objeto List para la tabla
         pintarLista();       
         
@@ -164,11 +164,11 @@ public class SesionPilotoDE implements Serializable {
         this.alInicio = alInicio;
     }
     
-    public ListaDE getListaPilotos() {
+    public ListapDE getListaPilotos() {
         return listaPilotos;
     }
 
-    public void setListaPilotos(ListaDE listaPilotos) {
+    public void setListaPilotos(ListapDE listaPilotos) {
         this.listaPilotos = listaPilotos;
     }
 
@@ -195,7 +195,7 @@ public class SesionPilotoDE implements Serializable {
         if(ayudante.getSiguiente()!=null)
         {
             ayudante = ayudante.getSiguiente();
-            piloto = ayudante.getReferencia();
+            piloto = ayudante.getDato();
         }        
     }
     
@@ -204,7 +204,7 @@ public class SesionPilotoDE implements Serializable {
         if(ayudante.getAnterior()!=null)
         {
             ayudante = ayudante.getAnterior();
-            piloto = ayudante.getReferencia();
+            piloto = ayudante.getDato();
         }        
     }
     
@@ -213,7 +213,7 @@ public class SesionPilotoDE implements Serializable {
         if(listaPilotos.getCabeza()!=null)
         {
             ayudante = listaPilotos.getCabeza();
-            piloto = ayudante.getReferencia();
+            piloto = ayudante.getDato();
         }
         else
         {
@@ -230,7 +230,7 @@ public class SesionPilotoDE implements Serializable {
             {
                 ayudante = ayudante.getSiguiente();
             }
-            piloto=ayudante.getReferencia();
+            piloto=ayudante.getDato();
         }
     }
     
@@ -266,13 +266,13 @@ public class SesionPilotoDE implements Serializable {
         //adicionar los elementos
         if(listaPilotos.getCabeza() !=null)
         {
-            NodoDE temp= listaPilotos.getCabeza();
+            NodopDE temp= listaPilotos.getCabeza();
             int posX=2;
             int posY=2;
             while(temp !=null)
             {
-                Element ele = new Element(temp.getReferencia().getNombre(), posX+"em", posY+"em");
-                ele.setId(String.valueOf(temp.getReferencia().getCodigo()));
+                Element ele = new Element(temp.getDato().getNombre(), posX+"em", posY+"em");
+                ele.setId(String.valueOf(temp.getDato().getCodigo()));
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
                 ele.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM_RIGHT));
                 

@@ -29,7 +29,7 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 
 /**
  *
- * @author carloaiza
+ * @author elianajuradx
  */
 @Named(value = "sesionInfante")
 @SessionScoped
