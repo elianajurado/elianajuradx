@@ -5,8 +5,9 @@
  */
 package com.listase.controlador;
 
+import com.listaenlazada.controladorp.PilotoFacade;
 import com.listase.excepciones.PilotoExcepcion;
-import com.listase.modelo.Piloto;
+import com.listaenlazada.modelop.Piloto;
 import com.listase.modelo.ListapDE;
 import com.listase.modelo.NodopDE;
 import com.listase.utilidades.JsfUtil;
@@ -14,13 +15,17 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.DiagramModel;
 import org.primefaces.model.diagram.Element;
 import org.primefaces.model.diagram.connector.FlowChartConnector;
+import org.primefaces.model.diagram.connector.StateMachineConnector;
 import org.primefaces.model.diagram.endpoint.BlankEndPoint;
 import org.primefaces.model.diagram.endpoint.EndPoint;
 import org.primefaces.model.diagram.endpoint.EndPointAnchor;
@@ -31,23 +36,52 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
  *
  * @author elianajuradx
  */
-@Named(value = "sesionPiloto")
+@Named(value = "sesionPilotoDE")
 @SessionScoped
 public class SesionPilotoDE implements Serializable {
-
+    @EJB
+    private PilotoFacade connPiloto;
     private ListapDE listaPilotos;
     private Piloto piloto;
     private String alInicio="1";
     private boolean deshabilitarFormulario=true;
     private NodopDE ayudante;   
     private String textoVista="Gráfico";   
-    private List listadoPilotos;    
+    private List<Piloto> listadoPilotos;    
     private DefaultDiagramModel model;    
     private short codigoEliminar;
-    private ControladorLocalidades controlLocalidades= new ControladorLocalidades();
-    private String codigoDeptoSel;
+    private ControladorMotos controlMotos= new ControladorMotos();
+    private String codigoMoto;
     private short pilotoSeleccionado;
     private Piloto PilotoDiagrama;
+    private int numeroPosiciones=1;
+    private int posicionPiloto;
+    private String opcionElegida="1";
+
+    public String getOpcionElegida() {
+        return opcionElegida;
+    }
+
+    public void setOpcionElegida(String opcionElegida) {
+        this.opcionElegida = opcionElegida;
+    }
+    
+
+    public int getPosicionPiloto() {
+        return posicionPiloto;
+    }
+
+    public void setPosicionPiloto(int posicionPiloto) {
+        this.posicionPiloto = posicionPiloto;
+    }
+
+    public int getNumeroPosiciones() {
+        return numeroPosiciones;
+    }
+
+    public void setNumeroPosiciones(int numeroPosiciones) {
+        this.numeroPosiciones = numeroPosiciones;
+    }
 
     public Piloto getPilotoDiagrama() {
         return PilotoDiagrama;
@@ -65,12 +99,12 @@ public class SesionPilotoDE implements Serializable {
         this.pilotoSeleccionado = pilotoSeleccionado;
     }
 
-    public ControladorLocalidades getControlLocalidades() {
-        return controlLocalidades;
+    public ControladorMotos getControlMotos() {
+        return controlMotos;
     }
 
-    public void setControlLocalidades(ControladorLocalidades controlLocalidades) {
-        this.controlLocalidades = controlLocalidades;
+    public void setControlMotos(ControladorMotos controlMotos) {
+        this.controlMotos = controlMotos;
     }
     
 
@@ -91,15 +125,21 @@ public class SesionPilotoDE implements Serializable {
     @PostConstruct
     private void inicializar()
     {
-        controlLocalidades= new ControladorLocalidades();
-        codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
-        listaPilotos = new ListapDE();        
-        //LLenado de la bds
-        ayudante = listaPilotos.getCabeza();
-        piloto = ayudante.getDato();     
-        //Me llena el objeto List para la tabla
-        pintarLista();       
         
+        listaPilotos = new ListapDE(); 
+        listadoPilotos = connPiloto.findAll();
+        for(Piloto pil:listadoPilotos){
+            listaPilotos.adicionarNodo(pil);
+        } 
+        
+        if(listadoPilotos.size()>0){
+        ayudante = listaPilotos.getCabeza();
+        piloto = ayudante.getDato();
+        } else {
+        piloto = new Piloto();
+        }
+              
+         pintarLista();
     }
      
     public DiagramModel getModel() {
@@ -125,12 +165,12 @@ public class SesionPilotoDE implements Serializable {
         this.textoVista = textoVista;
     }
 
-    public String getCodigoDeptoSel() {
-        return codigoDeptoSel;
+    public String getCodigoMoto() {
+        return codigoMoto;
     }
 
-    public void setCodigoDeptoSel(String codigoDeptoSel) {
-        this.codigoDeptoSel = codigoDeptoSel;
+    public void setCodigoMoto(String codigoDeptoSel) {
+        this.codigoMoto = codigoDeptoSel;
     }
 
         
@@ -181,7 +221,25 @@ public class SesionPilotoDE implements Serializable {
     }
     
     
-    
+    public void guardarPiloto()
+    {
+        //obtiene el consecutivo
+        piloto.setCodigo((short)(listaPilotos.contarNodos()+1));
+        if(alInicio.compareTo("1")==0)
+        {
+            listaPilotos.adicionarNodoAlInicio(piloto);
+        }
+        else
+        {
+            listaPilotos.adicionarNodo(piloto);
+        }  
+        //Vuelvo a llenar la lista para la tabla
+        listadoPilotos = listaPilotos.obtenerListaPilotos();
+        pintarLista();
+        deshabilitarFormulario=true;
+        JsfUtil.addSuccessMessage("El piloto se ha guardado exitosamente");
+        
+    }
   
     
     public void habilitarFormulario()
@@ -300,9 +358,133 @@ public class SesionPilotoDE implements Serializable {
         System.out.println(pilotoSeleccionado);
     }
     
+    public void eliminarPiloto()
+    {
+        if(codigoEliminar >0)
+        {
+            //llamo el eliminar de la lista
+            try{
+                listaPilotos.eliminarPiloto(codigoEliminar);
+                irPrimero();
+                JsfUtil.addSuccessMessage("Piloto "+codigoEliminar +" eliminado.");
+            }
+            catch(PilotoExcepcion e)
+            {
+                JsfUtil.addErrorMessage(e.getMessage());
+            }
+        }
+        else
+        {
+            JsfUtil.addErrorMessage("El código a eliminar "+codigoEliminar+ " no es válido");
+        }
+    }
+    
+    
     public void obtenerPilotoDiagrama()
     {
-       
+        try {
+            PilotoDiagrama = listaPilotos.obtenerPiloto(pilotoSeleccionado);
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void obtenerPilotoMenor()
+    {
+        try {
+            PilotoDiagrama = listaPilotos.obtenerPilotoMenorEdad();
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void obtenerPosicionPiloto()
+    {
+        try {
+            posicionPiloto = listaPilotos.obtenerPosicionPiloto(pilotoSeleccionado);
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    
+    public void enviarAlFinal()
+    {
+        try {
+            ///Buscar el piloto y guardar los datos en una variable temporal
+            Piloto infTemporal = listaPilotos.obtenerPiloto(pilotoSeleccionado);
+            // Eliminar el nodo
+            listaPilotos.eliminarPiloto(pilotoSeleccionado);
+            // Adicionarlo al final
+            listaPilotos.adicionarNodo(infTemporal);
+            
+            pintarLista();
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void enviarAlInicio()
+    {
+        try {
+            ///Buscar el piloto y guardar los datos en una variable temporal
+            Piloto infTemporal = listaPilotos.obtenerPiloto(pilotoSeleccionado);
+            // Eliminar el nodo
+            listaPilotos.eliminarPiloto(pilotoSeleccionado);
+            // Adicionarlo al inicio
+            listaPilotos.adicionarNodoAlInicio(infTemporal);
+            
+            pintarLista();
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void cambiarPosicion()
+    {
+        boolean bandera=false;
+        int posicionFinal=0;
+        switch(opcionElegida)
+        {
+            //Ganar
+            case "1":
+                if(numeroPosiciones <= (posicionPiloto-1) )
+                {
+                    bandera=true;
+                    posicionFinal = posicionPiloto - numeroPosiciones;
+                }
+                break;
+            //Perder
+            case "0":
+                if(numeroPosiciones <= (listaPilotos.contarNodos()-posicionPiloto))
+                {
+                    bandera=true;
+                    posicionFinal = posicionPiloto + numeroPosiciones;
+                }
+                break;
+        }
+        
+        if(bandera)
+        {
+            try {
+                //Realizaria la función de insertar
+                Piloto datosPiloto = listaPilotos.obtenerPiloto(pilotoSeleccionado);
+                // cambia la cantidad de pilotos
+                listaPilotos.eliminarPiloto(pilotoSeleccionado);
+                listaPilotos.adicionarNodoPosicion(posicionFinal, datosPiloto);
+                irPrimero();
+                JsfUtil.addSuccessMessage("Se ha realizado el cambio");
+                
+                
+            } catch (PilotoExcepcion ex) {
+               JsfUtil.addErrorMessage(ex.getMessage());
+            }
+            
+        }
+        else
+        {
+            JsfUtil.addErrorMessage("El número de posiciones no es válido para el piloto dado");
+        }
     }
  
     

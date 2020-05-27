@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Eliana Jurado</title>
         <style type="text/css">
@@ -37,10 +38,10 @@
             }
         </style>
     </h:head>
-    <h:body>
+     <ui:composition template="/template.xhtml">
+        <ui:define name="body">
         <p:growl id="grwlErrores"/>
         <h:form id="frmInfante">
-            <p:commandButton value="Volver" action="inicio" />
             <p:panel header="Lista Doblemente Enlazada Infantes - Total Infantes #{sesionInfanteDE.listaInfantes.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Infante">
@@ -183,7 +184,8 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}" value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}"
+                               value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
                                      actionListener="#{sesionInfanteDE.onClickRight()}" 
@@ -229,7 +231,7 @@
                 </p:panel>
             </p:panel>
             
-            <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
+            <p:dialog appendTo="@(body)" id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
                       modal="true" height="100">
                 <p:panel id="panelInfante">
                     <h:panelGrid columns="2">
@@ -245,14 +247,14 @@
                 </p:panel>
             </p:dialog> 
             
-            <p:dialog id="posicionInfante" header="Ver posición infante" widgetVar="dlgPosicionInfante"
+            <p:dialog appendTo="@(body)" id="posicionInfante" header="Ver posición infante" widgetVar="dlgPosicionInfante"
                 modal="true" height="50">                          
                 <h:panelGroup id="panelPosicion">
                     <p:outputLabel value="Posición #{sesionInfanteDE.posicionInfante}"/>
                 </h:panelGroup>
             </p:dialog>
             
-            <p:dialog id="gestionPosicionInfante" header="Adelantar/perder posición infante" 
+            <p:dialog appendTo="@(body)" id="gestionPosicionInfante" header="Adelantar/perder posición infante" 
                       widgetVar="dlgGestionPosicionInfante"
                 modal="true" height="150">                          
                 <h:panelGroup id="panelGestionPosicion">
@@ -276,7 +278,8 @@
             </p:dialog>
         </h:form>
 
-    </h:body>
+        </ui:define>
+     </ui:composition>
 </html>
 
 

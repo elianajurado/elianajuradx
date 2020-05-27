@@ -24,7 +24,7 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class AppBean {
     
-    private String correoTurno="carloaiza@umanizales.edu.co";    
+    private String correoTurno="elianajurado0825@gmail.com";    
     private int cont=0;   
     
     private List<Infante> listadoInfantes;
@@ -50,14 +50,14 @@ public class AppBean {
     {
         listadoInfantes = connInfante.findAll();
         listaCircularInfantes = new ListaCircularDE();
-        //recorrer el listado y envio el infante a laista SE
         for(Infante inf:listadoInfantes)
         {
             listaCircularInfantes.adicionarNodo(inf);
         }
         
         ayudante = listaCircularInfantes.getCabeza();
-        infanteSeleccionado = ayudante.getDato();       
+        infanteSeleccionado = new Infante();
+        //infanteSeleccionado = ayudante.getDato();               
         
     }
 

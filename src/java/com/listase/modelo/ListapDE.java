@@ -9,6 +9,7 @@ import com.listase.excepciones.PilotoExcepcion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import com.listaenlazada.modelop.Piloto;
 
 /**
  *
@@ -228,28 +229,7 @@ public class ListapDE implements Serializable{
     }
 
 
-    public String obtenerMenorEdad() throws PilotoExcepcion {
-      
-        if (cabeza == null) {
-            throw new PilotoExcepcion("La lista de los pilotos esta vacia");
-
-        } else {
-            NodopDE temp = cabeza;
-            byte menor = temp.getDato().getEdad();
-              String a=temp.getDato().getNombre();
-            while (temp != null) {
-                if (temp.getDato().getEdad() < menor) {
-                    menor = temp.getDato().getEdad();
-                    a = temp.getDato().getNombre();
-                    
-                    
-                }
-                temp = temp.getSiguiente();
-            }
-            return a;
-        }
-    }
-    
+  
     public int cantidad ()
     {
         int cant = 0;

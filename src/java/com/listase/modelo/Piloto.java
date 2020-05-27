@@ -5,43 +5,54 @@
  */
 package com.listase.modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author elianajuradx
  */
-public class Piloto {
+public class Piloto implements  Serializable{
     private String nombre; //null
     private short codigo; //0
     private byte edad; //0
-    private boolean moto;
-    private String ciudadNacimiento;
+    private boolean genero;
+    private String moto;
+    private short posicion;
 
-    public String getCiudadNacimiento() {
-        return ciudadNacimiento;
+    public short getPosicion() {
+        return posicion;
     }
 
-    public void setCiudadNacimiento(String ciudadNacimiento) {
-        this.ciudadNacimiento = ciudadNacimiento;
+    public void setPosicion(short posicion) {
+        this.posicion = posicion;
     }
 
-    public boolean isMoto() {
+    public String getMoto() {
         return moto;
     }
 
-    public void setMoto(boolean moto) {
+    public void setMoto(String moto) {
         this.moto = moto;
+    }
+
+    public boolean isGenero() {
+        return genero;
+    }
+
+    public void setGenero(boolean genero) {
+        this.genero = genero;
     }
 
     public Piloto() {
         this.edad=1;
     }    
     
-    public Piloto(String nombre, short codigo, byte edad, boolean moto, String ciudadNacimiento) {
+    public Piloto(String nombre, short codigo, byte edad, boolean genero, String moto) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.edad = edad;
+        this.genero = genero;
         this.moto = moto;
-        this.ciudadNacimiento = ciudadNacimiento;
     }
 
     public String getNombre() {
@@ -72,6 +83,7 @@ public class Piloto {
     public String toString() {
        return this.nombre; 
     }
+    
     
     
 }

@@ -22,7 +22,6 @@ public class ControladorLocalidades {
         //llenar las ciudades y los departamentos
         llenarDepartamentos();
         llenarCiudades();
-        
     }
 
     public List<Ciudad> getCiudades() {
@@ -40,6 +39,7 @@ public class ControladorLocalidades {
     public void setDepartamentos(List<Departamento> departamentos) {
         this.departamentos = departamentos;
     }
+    
     
     private void llenarDepartamentos()
     {
@@ -67,6 +67,11 @@ public class ControladorLocalidades {
                 ciudadesxDepto.add(ciu);
             }
         }
+        
         return ciudadesxDepto;
     }
+    
+    
+    
+    
 }

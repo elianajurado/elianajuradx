@@ -15,12 +15,20 @@
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePiloto</base-name>
+            <var>bundlePiloto</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/inicioListas.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>infantes</from-outcome>
             <to-view-id>/infante/List.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Pilotos</from-outcome>
+            <to-view-id>/piloto/List.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

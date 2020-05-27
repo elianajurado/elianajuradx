@@ -64,12 +64,29 @@
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" required="true" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
                                          value="#{sesionPilotoDE.piloto.nombre}"   />
+                                <p:outputLabel for="spEdad" value="Edad"/>
+                                <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
+                                       value="#{sesionPilotoDE.piloto.edad}"/>
+                                <p:outputLabel value="Género"/>
+                                <p:selectOneMenu value="#{sesionPilotoDE.piloto.genero}"
+                                             disabled="#{sesionPilotoDE.deshabilitarFormulario}">
+                                    <f:selectItem itemLabel="Niño" itemValue="true"/>
+                                    <f:selectItem itemLabel="Niña" itemValue="false"/>
+                                </p:selectOneMenu>
 
-                                <p:outputLabel value="Moto"/>
-                                <p:selectOneMenu value="#{sesionPilotoDE.codigoMoto}" disabled="#{sesionPilotoDE.deshabilitarFormulario}" >
-                                    <f:selectItems value="#{sesionPilotoDE.controlMotos.moto}" 
-                                                   var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
+                                <p:outputLabel value="Departamento"/>
+                                <p:selectOneMenu value="#{sesionPilotoDE.codigoDeptoSel}" disabled="#{sesionPilotoDE.deshabilitarFormulario}" >
+                                    <f:selectItems value="#{sesionPilotoDE.controlLocalidades.departamentos}" 
+                                        var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
                                          />
+                                    <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Ciudad"/>
+                                <p:selectOneMenu id="cmbCiudad" value="#{sesionPilotoDE.piloto.ciudadNacimiento}" disabled="#{sesionPilotoDE.deshabilitarFormulario}"  >
+                                    <f:selectItems value="#{sesionPilotoDE.controlLocalidades.obtenerCiudadesxDepto(sesionPilotoDE.codigoDeptoSel)}" 
+                                               var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
+                                               />
                                 </p:selectOneMenu>
 
 
@@ -109,9 +126,21 @@
                                          />
                         </p:panel>
                     </p:panelGrid>
-                </p:panel>                      
+                </p:panel>                        
                         
-                
+                <p:panel header="Reportes">
+                    <p:outputLabel value="Promedio de Edad de los pilotos: #{sesionPilotoDE.listaPilotos.promediarEdades()}"/>
+                    <br/>
+                    <p:outputLabel value="#{sesionPilotoDE.listaPilotos.obtenerListadoPilotos()}"/>
+                    <br/>
+                    
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Cantidad Niños: "/>
+                        <p:outputLabel value="#{sesionPilotoDE.listaPilotos.contarPilotosxGenero(true)}"/>               
+                        <p:outputLabel value="Cantidad Niñas: "/>
+                        <p:outputLabel value="#{sesionPilotoDE.listaPilotos.contarPilotosxGenero(false)}"/>
+                    </h:panelGrid>
+                </p:panel>
                 <p:commandButton value="Ver Piloto Menor"                                     
                                 action="#{sesionPilotoDE.obtenerPilotoMenor()}" 
                                 update="panelPiloto"                                    
@@ -127,26 +156,32 @@
                             <f:facet name="header">
                                 <p:outputLabel value="Código"/>
                             </f:facet>
-                            <p:outputLabel value="#{pil.codigo}"/>
+                            <p:outputLabel value="#{inf.codigo}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Nombre"/>
                             </f:facet>
-                            <p:outputLabel value="#{pil.nombre}"/>
+                            <p:outputLabel value="#{inf.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Edad"/>
                             </f:facet>
-                            <p:outputLabel value="#{pil.edad}"/>
+                            <p:outputLabel value="#{inf.edad}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <p:outputLabel value="Género"/>
                             </f:facet>
-                            <p:outputLabel rendered="#{pil.genero}"  value="Niño"/>
-                            <p:outputLabel rendered="#{!pil.genero}"  value="Niña"/>                                
+                            <p:outputLabel rendered="#{inf.genero}"  value="Niño"/>
+                            <p:outputLabel rendered="#{!inf.genero}"  value="Niña"/>                                
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Ciudad nacimiento"/>
+                            </f:facet>
+                            <p:outputLabel value="#{inf.ciudadNacimiento}"/>
                         </p:column>
                     </p:dataTable>
 

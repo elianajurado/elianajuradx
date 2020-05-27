@@ -5,6 +5,7 @@
  */
 package com.listase.modelo;
 
+import com.listaenlazada.modelop.Piloto;
 /**
  *
  * @author elianajuradx

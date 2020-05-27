@@ -20,8 +20,8 @@ import javax.ejb.EJB;
 @SessionScoped
 public class LoginBean implements Serializable {
 
-    private String correo;
-    private String contrasenia;
+    private String correo="elianajurado0825@gmail.com";
+    private String contrasenia="123456";
     private Usuario usuarioAutenticado;
     @EJB
     private UsuarioFacade connUsuario;

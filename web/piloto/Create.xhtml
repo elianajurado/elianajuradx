@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundlePiloto.CreatePilotoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundlePiloto.CreatePilotoLabel_codigo}" for="codigo" />
+                    <h:inputText id="codigo" value="#{pilotoController.selected.codigo}" title="#{bundlePiloto.CreatePilotoTitle_codigo}" required="true" requiredMessage="#{bundlePiloto.CreatePilotoRequiredMessage_codigo}"/>
+                    <h:outputLabel value="#{bundlePiloto.CreatePilotoLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{pilotoController.selected.nombre}" title="#{bundlePiloto.CreatePilotoTitle_nombre}" required="true" requiredMessage="#{bundlePiloto.CreatePilotoRequiredMessage_nombre}"/>
+                    <h:outputLabel value="#{bundlePiloto.CreatePilotoLabel_moto}" for="moto" />
+                    <h:inputText id="moto" value="#{pilotoController.selected.moto}" title="#{bundlePiloto.CreatePilotoTitle_moto}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{pilotoController.create}" value="#{bundlePiloto.CreatePilotoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{pilotoController.prepareList}" value="#{bundlePiloto.CreatePilotoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundlePiloto.CreatePilotoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

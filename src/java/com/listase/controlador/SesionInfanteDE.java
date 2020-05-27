@@ -5,6 +5,7 @@
  */
 package com.listase.controlador;
 
+import com.listaenlazada.controlador.InfanteFacade;
 import com.listase.excepciones.InfanteExcepcion;
 //import com.listase.modelo.Infante;
 import com.listasenlazada.modelo.Infante;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
@@ -39,6 +41,8 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 @Named(value = "sesionInfanteDE")
 @SessionScoped
 public class SesionInfanteDE implements Serializable {
+    @EJB
+    private InfanteFacade connInfante;
     private ListaDE listaInfantes;
     private Infante infante;
     private String alInicio="1";
@@ -46,7 +50,7 @@ public class SesionInfanteDE implements Serializable {
     private NodoDE ayudante;   
     private String textoVista="Gráfico";
     
-    private List listadoInfantes;
+    private List<Infante> listadoInfantes;
     
     private DefaultDiagramModel model;
     
@@ -79,20 +83,20 @@ public class SesionInfanteDE implements Serializable {
         //inicializando el combo en el primer depto
         codigoDeptoSel = controlLocalidades.getDepartamentos().get(0).getCodigo();
         
-        listaInfantes = new ListaDE();        
-        //LLenado de la bds
-//        listaInfantes.adicionarNodo(new Infante("Carlitos",(short) 1, (byte)2, true,
-//                controlLocalidades.getCiudades().get(0).getNombre()));
-//        listaInfantes.adicionarNodo(new Infante("Juanita",(short) 2, (byte)3, false,
-//        controlLocalidades.getCiudades().get(3).getNombre()));
-//        listaInfantes.adicionarNodo(new Infante("Martina",(short) 3, (byte)1,false,
-//        controlLocalidades.getCiudades().get(1).getNombre()));
-//        listaInfantes.adicionarNodoAlInicio(new Infante("Mariana",(short) 4, (byte)5,false,
-//        controlLocalidades.getCiudades().get(2).getNombre()));
-//        ayudante = listaInfantes.getCabeza();
-//        infante = ayudante.getDato();     
-        //Me llena el objeto List para la tabla
-        listadoInfantes = listaInfantes.obtenerListaInfantes();
+        listaInfantes = new ListaDE(); 
+        listadoInfantes = connInfante.findAll();
+        for(Infante inf:listadoInfantes){
+            listaInfantes.adicionarNodo(inf);
+        } 
+        
+        if(listadoInfantes.size()>0){
+        ayudante = listaInfantes.getCabeza();
+        infante = ayudante.getDato();
+        } else {
+        infante = new Infante();
+        }
+        
+   
         pintarLista();
         
         
