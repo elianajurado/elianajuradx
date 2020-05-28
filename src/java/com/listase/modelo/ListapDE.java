@@ -293,6 +293,23 @@ public class ListapDE implements Serializable{
         }
     }
     
+    public short obtenerPosicionFinal(short codigo)throws PilotoExcepcion{
+        
+        if(cabeza==null){
+            throw new PilotoExcepcion("La lista de pilotos esta vacia");
+            
+        } else{
+            NodopDE temp= cabeza;
+            short cont= 1;
+            while(temp !=null){
+                if(temp.getDato().getCodigo()== codigo){
+                    return cont;
+                }
+            }
+            throw new PilotoExcepcion("El codigo"+codigo+"No existe en la lista");
+        }
+    }
+    
     public void adicionarNodoPosicion(int posicion, Piloto dato) throws PilotoExcepcion {
         if (cabeza != null) {
             if (posicion == 1) {

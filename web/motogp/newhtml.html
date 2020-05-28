@@ -1,82 +1,17 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"/>
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous"/>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-        <title>Motogp</title>
-    </h:head>
-        <ui:composition template="/template-motogp.xhtml">
-            <ui:define name="body">
-            <p:growl id="grwlErrores"/>
-            <h:form id="frmPiloto">
-                <div style="height:100px !important; width: 100% !important;background-color: #7cfc00 !important;"></div>
-                <div class="containter">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="panel panel-default">
-                                        <!-- Default panel contents -->
-                                <div class="panel-heading">Datos Piloto</div>
-                                <table class="table">
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th><p:inputText id="txtNombre" required="true" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
-                                         value="#{sesionPilotoDE.piloto.nombre}"   /></th>
-                                </tr>
-                                <tr>
-                                    <th>Moto</th>
-                                    <th><p:selectOneMenu value="#{sesionPilotoDE.codigoMoto}" disabled="#{sesionPilotoDE.deshabilitarFormulario}" >
-                                    <f:selectItems value="#{sesionPilotoDE.controlMotos.moto}" 
-                                                   var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
-                                         />
-                                        </p:selectOneMenu></th>
-                                </tr>
-                                <tr>
-                                    <th>Al inicio</th>
-                                    <th><p:selectOneMenu value="#{sesionPilotoDE.alInicio}" disabled="#{sesionPilotoDE.deshabilitarFormulario}">
-                                        <f:selectItem itemLabel="SI" itemValue="1"/>
-                                        <f:selectItem itemLabel="NO" itemValue="0"/>
-                                        </p:selectOneMenu></th>
-                                </tr>
-                                <tr>
-                                    <th><p:commandButton value="Invertir"  update="frmPiloto,:grwlErrores"
-                                         action="#{sesionPilotoDE.invertirLista()}"
-                                         /></th>
-                                    <th><p:commandButton value="Primero" action="#{sesionPilotoDE.irPrimero()}" 
-                                                         update="frmPiloto"/></th> 
-                                </tr>
-                                <tr>    
-                                    <th><p:commandButton value="Siguiente" action="#{sesionPilotoDE.irSiguiente()}"
-                                                 update="frmPiloto"/></th>
-                                    <th><p:commandButton value="Anterior" action="#{sesionPilotoDE.irAnterior()}"
-                                                 update="frmPiloto"/></th>
-                                </tr>
-                                <tr>
-                                    <th><p:commandButton value="Último" action="#{sesionPilotoDE.irUltimo()}" 
-                                                 update="frmPiloto"/> </th>
-                                </tr>
-                                <tr>
-                                    <th>Código a eliminar:</th>
-                                    <th><p:inputText value="#{sesionPilotoDE.codigoEliminar}" maxlength="4" size="10"/>
-                                        <p:commandButton value="Eliminar" action="#{sesionPilotoDE.eliminarPiloto()}" 
-                                         update="frmPiloto,:grwlErrores"
-                                         /></th>
-                                </tr>
-                            </table>
-                            </div>                           
-                        </div>
-                        <div class="col-md-8">
-                            <p:panel id="pnlVista" style="width: 100%; ">
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!--<div class="col-md-6" id="pnlVista">
                             <p:diagram id="diagrama" value="#{sesionPilotoDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                                 <p:remoteCommand name="elementClickRight" 
@@ -164,21 +99,6 @@
 
                                 </h:panelGroup>
                             </p:dialog>
-                            </p:panel>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div style="height:100px !important; width: 100% !important;background-color: #7cfc00 !important;"></div>
-                                   
-                        
-                
-                  
-
-                    
-            </h:form>
-        </ui:define>
-     </ui:composition>
-       
+                        </div>-->
+    </body>
 </html>
-

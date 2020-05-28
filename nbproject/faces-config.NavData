@@ -6,7 +6,7 @@
         <Node id="usuario/List.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="pirinola/index.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="usuario/View.xhtml" x="650" y="450" zoom="true"/>
-        <Node id="motogp/login.xhtml" x="1150" y="300" zoom="true"/>
+        <Node id="motogp/login.xhtml" x="1159" y="350" zoom="true"/>
         <Node id="usuario/Create.xhtml" x="150" y="600" zoom="true"/>
         <Node id="inicioListas.xhtml" x="442" y="334" zoom="true"/>
         <Node id="template.xhtml" x="1150" y="150" zoom="true"/>
@@ -16,15 +16,15 @@
         <Node id="template-motogp.xhtml" x="1400" y="300" zoom="true"/>
         <Node id="tingotango/tingotango.xhtml" x="150" y="900" zoom="true"/>
         <Node id="*" x="458" y="97" zoom="true"/>
-        <Node id="listade/index.xhtml" x="687" y="274" zoom="true"/>
-        <Node id="piloto/List.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="listade/index.xhtml" x="627" y="150" zoom="true"/>
         <Node id="usuario/Edit.xhtml" x="150" y="450" zoom="true"/>
-        <Node id="motogp/index.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="piloto/List.xhtml" x="900" y="600" zoom="true"/>
+        <Node id="motogp/index.xhtml" x="1134" y="212" zoom="true"/>
         <Node id="tipoUsuario/List.xhtml" x="150" y="750" zoom="true"/>
         <Node id="infante/View.xhtml" x="400" y="150" zoom="true"/>
         <Node id="infante/List.xhtml" x="400" y="600" zoom="true"/>
-        <Node id="piloto/View.xhtml" x="650" y="600" zoom="true"/>
         <Node id="piloto/Edit.xhtml" x="1650" y="150" zoom="true"/>
+        <Node id="piloto/View.xhtml" x="650" y="600" zoom="true"/>
         <Node id="tipoUsuario/View.xhtml" x="150" y="150" zoom="true"/>
         <Node id="tingotango/prueba_cliente_template.xhtml" x="900" y="450" zoom="true"/>
         <Node id="infante/Edit.xhtml" x="150" y="300" zoom="true"/>

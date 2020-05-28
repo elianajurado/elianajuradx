@@ -31,4 +31,11 @@
             <to-view-id>/piloto/List.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/motogp/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>motos</from-outcome>
+            <to-view-id>/motogp/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

@@ -24,7 +24,7 @@
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
                 border-radius: 1px;
                 border: 1px solid transparent;
-                background:url(../imagen/moto.png) no-repeat scroll left center transparent;  
+                background:url(../imagen/moto.png) no-repeat scroll left center transparent !important;  
                 background-size: 100px 100px;              
                 
             }
@@ -56,224 +56,57 @@
             <ui:define name="body">
             <p:growl id="grwlErrores"/>
             <h:form id="frmPiloto">
-                <p:panel header="Lista Doblemente Enlazada Pilotos - Total Pilotos #{sesionPilotoDE.listaPilotos.contarNodos()}">
-                    <p:panelGrid columns="2">
-                        <p:panel header="Datos Piloto">
+                <div header="Lista Doblemente Enlazada Pilotos - Total Pilotos #{sesionPilotoDE.listaPilotos.contarNodos()}">
+                    <div class="containter">
+                        <div class="row">
+                            <div class="col-md-3"/>
+                            <div class="col-md-6" style="text-align:center;">
+                                <div>
+                                    <h1 style="text-align: center !important; color: black; ">Bienvenido a Motogp, ingresa tus Pilotos</h1>
+                                    <div class="panel panel-default">
+                                        <!-- Default panel contents -->
+                                        <div class="panel-heading">Piloto</div>
 
-                            <p:panelGrid columns="2">
-                                <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" required="true" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
-                                         value="#{sesionPilotoDE.piloto.nombre}"   />
-                                <p:outputLabel for="spEdad" value="Edad"/>
-                                <p:spinner id="spEdad" required="true" min="1" max="7" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
-                                       value="#{sesionPilotoDE.piloto.edad}"/>
-                                <p:outputLabel value="Género"/>
-                                <p:selectOneMenu value="#{sesionPilotoDE.piloto.genero}"
-                                             disabled="#{sesionPilotoDE.deshabilitarFormulario}">
-                                    <f:selectItem itemLabel="Niño" itemValue="true"/>
-                                    <f:selectItem itemLabel="Niña" itemValue="false"/>
-                                </p:selectOneMenu>
+                                        <!-- Table -->
+                                        <table class="table">
+                                          <tr>
+                                            <th>Nombre</th>
+                                            <th><p:inputText id="txtNombre" required="true" disabled="#{sesionPilotoDE.deshabilitarFormulario}"
+                                         value="#{sesionPilotoDE.piloto.nombre}"   /></th>
+                                          </tr>
+                                          <tr>
+                                            <th>Moto</th>
+                                            <th> 
+                                                <p:selectOneMenu value="#{sesionPilotoDE.codigoMoto}" disabled="#{sesionPilotoDE.deshabilitarFormulario}" >
+                                                <f:selectItems value="#{sesionPilotoDE.controlMotos.moto}" 
+                                                   var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
+                                                />
+                                                </p:selectOneMenu></th>
+                                          </tr>
+                                          <tr>
+                                              <th>Al inicio</th>
+                                              <th><p:selectOneMenu value="#{sesionPilotoDE.alInicio}" disabled="#{sesionPilotoDE.deshabilitarFormulario}">
+                                                    <f:selectItem itemLabel="SI" itemValue="1"/>
+                                                    <f:selectItem itemLabel="NO" itemValue="0"/>
+                                                    </p:selectOneMenu></th>
+                                          </tr>
+                                          <tr>
+                                              <th><p:commandButton value="Guardar" update="frmPiloto,:grwlErrores"
+                                                    action="#{sesionPilotoDE.guardarPiloto()}" disabled="#{sesionPilotoDE.deshabilitarFormulario}"/></th> 
+                                              <th><p:commandButton value="Nuevo" update="frmPiloto" action="#{sesionPilotoDE.habilitarFormulario()}"
+                                                     disabled="#{!sesionPilotoDE.deshabilitarFormulario}"
+                                                     /></th>                                     
+                                          </tr>
+                                        </table>
+                                      </div>
 
-                                <p:outputLabel value="Departamento"/>
-                                <p:selectOneMenu value="#{sesionPilotoDE.codigoDeptoSel}" disabled="#{sesionPilotoDE.deshabilitarFormulario}" >
-                                    <f:selectItems value="#{sesionPilotoDE.controlLocalidades.departamentos}" 
-                                        var="depto" itemLabel="#{depto.nombre}" itemValue="#{depto.codigo}"
-                                         />
-                                    <p:ajax event="change" update="cmbCiudad" process="cmbCiudad" />
-                                </p:selectOneMenu>
-
-                                <p:outputLabel value="Ciudad"/>
-                                <p:selectOneMenu id="cmbCiudad" value="#{sesionPilotoDE.piloto.ciudadNacimiento}" disabled="#{sesionPilotoDE.deshabilitarFormulario}"  >
-                                    <f:selectItems value="#{sesionPilotoDE.controlLocalidades.obtenerCiudadesxDepto(sesionPilotoDE.codigoDeptoSel)}" 
-                                               var="ciudad" itemLabel="#{ciudad.nombre}" itemValue="#{ciudad.nombre}"
-                                               />
-                                </p:selectOneMenu>
-
-
-                                <p:outputLabel value="Al inicio"/>
-                                <p:selectOneMenu value="#{sesionPilotoDE.alInicio}" disabled="#{sesionPilotoDE.deshabilitarFormulario}">
-                                    <f:selectItem itemLabel="SI" itemValue="1"/>
-                                    <f:selectItem itemLabel="NO" itemValue="0"/>
-                                </p:selectOneMenu>
-                            </p:panelGrid>
-                            
-                            <p:commandButton value="Guardar" update="frmPiloto,:grwlErrores"
-                                         action="#{sesionPilotoDE.guardarPiloto()}" disabled="#{sesionPilotoDE.deshabilitarFormulario}"/>
-
-                            <p:commandButton value="Nuevo" update="frmPiloto" action="#{sesionPilotoDE.habilitarFormulario()}"
-                                         disabled="#{!sesionPilotoDE.deshabilitarFormulario}"
-                                         />
-                            <p:commandButton value="Invertir"  update="frmPiloto,:grwlErrores"
-                                         action="#{sesionPilotoDE.invertirLista()}"
-                                         />
-                            <p:commandButton value="Mostrar Piloto menor Edad"/>
-                            
-                            <p:panelGrid columns="4">
-                                <p:commandButton value="Primero" action="#{sesionPilotoDE.irPrimero()}" 
-                                                 update="frmPiloto"/>
-                                <p:commandButton value="Anterior" action="#{sesionPilotoDE.irAnterior()}"
-                                                 update="frmPiloto"/>
-                                <p:commandButton value="Siguiente" action="#{sesionPilotoDE.irSiguiente()}"
-                                                 update="frmPiloto"/>       
-                                <p:commandButton value="Último" action="#{sesionPilotoDE.irUltimo()}" 
-                                                 update="frmPiloto"/>                         
-                            </p:panelGrid>
-                            
-                            <p:outputLabel value="Código a eliminar: "/>
-                            <p:inputText value="#{sesionPilotoDE.codigoEliminar}" maxlength="4" size="10"/>
-                            <p:commandButton value="Eliminar" action="#{sesionPilotoDE.eliminarPiloto()}" 
-                                         update="frmPiloto,:grwlErrores"
-                                         />
-                        </p:panel>
-                    </p:panelGrid>
-                </p:panel>                        
-                        
-                <p:panel header="Reportes">
-                    <p:outputLabel value="Promedio de Edad de los pilotos: #{sesionPilotoDE.listaPilotos.promediarEdades()}"/>
-                    <br/>
-                    <p:outputLabel value="#{sesionPilotoDE.listaPilotos.obtenerListadoPilotos()}"/>
-                    <br/>
-                    
-                    <h:panelGrid columns="2">
-                        <p:outputLabel value="Cantidad Niños: "/>
-                        <p:outputLabel value="#{sesionPilotoDE.listaPilotos.contarPilotosxGenero(true)}"/>               
-                        <p:outputLabel value="Cantidad Niñas: "/>
-                        <p:outputLabel value="#{sesionPilotoDE.listaPilotos.contarPilotosxGenero(false)}"/>
-                    </h:panelGrid>
-                </p:panel>
-                <p:commandButton value="Ver Piloto Menor"                                     
-                                action="#{sesionPilotoDE.obtenerPilotoMenor()}" 
-                                update="panelPiloto"                                    
-                                oncomplete="PF('dlgDatosPiloto').show();" />
-
-                <p:panel header="Gráfico" id="pnlVista" style="width: 100%;">
-                    <p:commandButton value="#{sesionPilotoDE.textoVista}" 
-                                     action="#{sesionPilotoDE.cambiarVistaPilotos()}"
-                                     update="pnlVista"/>
-
-                    <p:dataTable rendered="#{sesionPilotoDE.textoVista=='Gráfico'}"  value="#{sesionPilotoDE.listadoPilotos}" var="inf">
-                        <p:column>
-                            <f:facet name="header">
-                                <p:outputLabel value="Código"/>
-                            </f:facet>
-                            <p:outputLabel value="#{inf.codigo}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:outputLabel value="Nombre"/>
-                            </f:facet>
-                            <p:outputLabel value="#{inf.nombre}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:outputLabel value="Edad"/>
-                            </f:facet>
-                            <p:outputLabel value="#{inf.edad}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:outputLabel value="Género"/>
-                            </f:facet>
-                            <p:outputLabel rendered="#{inf.genero}"  value="Niño"/>
-                            <p:outputLabel rendered="#{!inf.genero}"  value="Niña"/>                                
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <p:outputLabel value="Ciudad nacimiento"/>
-                            </f:facet>
-                            <p:outputLabel value="#{inf.ciudadNacimiento}"/>
-                        </p:column>
-                    </p:dataTable>
-
-                    <p:diagram id="diagrama" rendered="#{sesionPilotoDE.textoVista=='Tabla'}" value="#{sesionPilotoDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
-
-                    <p:remoteCommand name="elementClickRight" 
-                                     actionListener="#{sesionPilotoDE.onClickRight()}" 
-                                     >
-                    </p:remoteCommand>
-
-                    <script>
-                        $(document).ready(function () {
-                            $('.ui-diagram > .ui-diagram-element').mousedown(function (info) {
-                                if (info.which === 3) {
-                                    elementClickRight([{
-                                            name: 'elementId',
-                                            value: info.target.id
-                                        }]);
-                                }
-                            });
-                        });
-                    </script>
-
-                    <p:contextMenu id="mnuDiagrama" for="diagrama"
-                                   targetFilter=".ui-diagram-element"
-                                   >
-                        <p:menuitem value="Ver datos" 
-                                    action="#{sesionPilotoDE.obtenerPilotoDiagrama()}" 
-                                    update="panelPiloto"                                    
-                                    oncomplete="PF('dlgDatosPiloto').show();" />
-                        
-                        <p:menuitem value="Ver posición" 
-                                    action="#{sesionPilotoDE.obtenerPosicionPiloto()}"
-                                    update="panelPosicion"                                    
-                                    oncomplete="PF('dlgPosicionPiloto').show();" />
-                        <p:menuitem value="Eliminar"/>                        
-                        <p:menuitem value="Enviar al final" update="pnlVista"                                    
-                                    action="#{sesionPilotoDE.enviarAlFinal()}"/>
-                        <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
-                                    action="#{sesionPilotoDE.enviarAlInicio()}"                                    
-                                    /> 
-                        <p:menuitem value="Adelantar/Perder Posición"
-                                    action="#{sesionPilotoDE.obtenerPosicionPiloto()}"
-                                    update="panelGestionPosicion"                                    
-                                    oncomplete="PF('dlgGestionPosicionPiloto').show();"/>
-                    </p:contextMenu>
-                </p:panel>
-            
-                <p:dialog appendTo="@(body)" id="modalPiloto" header="Datos Piloto" widgetVar="dlgDatosPiloto" 
-                      modal="true" height="100">
-                    <p:panel id="panelPiloto">
-                        <h:panelGrid columns="2">
-                            <h:outputText value="Código:" />
-                            <h:outputText value="#{sesionPilotoDE.pilotoDiagrama.codigo}" />
-                            <h:outputText value="Nombre:" />
-                            <h:outputText value="#{sesionPilotoDE.pilotoDiagrama.nombre}" />
-                            <h:outputText value="Género:" />
-                            <h:outputText rendered="#{sesionPilotoDE.pilotoDiagrama.genero}" value="Masculino" />
-                            <h:outputText rendered="#{!sesionPilotoDE.pilotoDiagrama.genero}" value="Femenino" />
-                        </h:panelGrid>
-                    </p:panel>
-                </p:dialog> 
-            
-                <p:dialog appendTo="@(body)" id="posicionPiloto" header="Ver posición piloto" widgetVar="dlgPosicionPiloto"
-                    modal="true" height="50">                          
-                    <h:panelGroup id="panelPosicion">
-                        <p:outputLabel value="Posición #{sesionPilotoDE.posicionPiloto}"/>
-                    </h:panelGroup>
-                </p:dialog>
-            
-                <p:dialog appendTo="@(body)" id="gestionPosicionPiloto" header="Adelantar/perder posición piloto" 
-                      widgetVar="dlgGestionPosicionPiloto"
-                    modal="true" height="150">                          
-                    <h:panelGroup id="panelGestionPosicion">
-                        <h:panelGrid columns="2">
-                            <p:outputLabel value="Posición Actual"/>
-                            <p:outputLabel value="#{sesionPilotoDE.posicionPiloto}"/>
-                            <p:outputLabel value="Acción"/>
-                            <p:selectOneMenu value="#{sesionPilotoDE.opcionElegida}">
-                                <f:selectItem itemLabel="Ganar" itemValue="1"/>
-                                <f:selectItem itemLabel="Perder" itemValue="0"/>
-                            </p:selectOneMenu>
-                            <p:outputLabel value="Número posiciones"/>
-                            <p:spinner min="1" value="#{sesionPilotoDE.numeroPosiciones}"/>
-                        </h:panelGrid>
-                        <p:commandButton value="Aplicar" action="#{sesionPilotoDE.cambiarPosicion()}"
-                                     onclick="PF('dlgGestionPosicionPiloto').hide();"
-                                     ajax="false"
-                                      update="pnlVista"/>
-                    
-                    </h:panelGroup>
-                </p:dialog>
+                                    <a style="text-center" type="button" href="index.xhtml" class="btn btn-success">Empezar carrera</a>
+                                </div>
+                            </div>
+                            <div class="col-md-3"/>
+                        </div>                        
+                    </div>                    
+                </div>                        
             </h:form>
         </ui:define>
      </ui:composition>
