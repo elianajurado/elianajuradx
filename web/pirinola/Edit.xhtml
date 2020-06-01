@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PirinolaEditDlg" widgetVar="PirinolaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePirinola.EditPirinolaTitle}">
+            <h:form id="PirinolaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pirinolaController.selected != null}">
+                        <p:outputLabel value="#{bundlePirinola.EditPirinolaLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{pirinolaController.selected.codigo}" title="#{bundlePirinola.EditPirinolaTitle_codigo}" required="true" requiredMessage="#{bundlePirinola.EditPirinolaRequiredMessage_codigo}"/>
+                        <p:outputLabel value="#{bundlePirinola.EditPirinolaLabel_texto}" for="texto" />
+                        <p:inputText id="texto" value="#{pirinolaController.selected.texto}" title="#{bundlePirinola.EditPirinolaTitle_texto}" required="true" requiredMessage="#{bundlePirinola.EditPirinolaRequiredMessage_texto}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pirinolaController.update}" value="#{bundlePirinola.Save}" update="display,:PirinolaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PirinolaEditDialog');"/>
+                    <p:commandButton value="#{bundlePirinola.Cancel}" onclick="PirinolaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

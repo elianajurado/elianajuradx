@@ -3,44 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundlePiloto.ViewPilotoTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{bundlePiloto.ViewPilotoLabel_codigo}"/>
-                    <h:outputText value="#{pilotoController.selected.codigo}" title="#{bundlePiloto.ViewPilotoTitle_codigo}"/>
-                    <h:outputText value="#{bundlePiloto.ViewPilotoLabel_nombre}"/>
-                    <h:outputText value="#{pilotoController.selected.nombre}" title="#{bundlePiloto.ViewPilotoTitle_nombre}"/>
-                    <h:outputText value="#{bundlePiloto.ViewPilotoLabel_edad}"/>
-                    <h:outputText value="#{pilotoController.selected.edad}" title="#{bundlePiloto.ViewPilotoTitle_edad}"/>
-                    <h:outputText value="#{bundlePiloto.ViewPilotoLabel_genero}"/>
-                    <h:outputText value="#{pilotoController.selected.genero}" title="#{bundlePiloto.ViewPilotoTitle_genero}"/>
-                    <h:outputText value="#{bundlePiloto.ViewPilotoLabel_moto}"/>
-                    <h:outputText value="#{pilotoController.selected.moto}" title="#{bundlePiloto.ViewPilotoTitle_moto}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{pilotoController.destroyAndView}" value="#{bundlePiloto.ViewPilotoDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundlePiloto.ViewPilotoEditLink}"/>
-                <br />
-                <h:commandLink action="#{pilotoController.prepareCreate}" value="#{bundlePiloto.ViewPilotoCreateLink}" />
-                <br />
-                <h:commandLink action="#{pilotoController.prepareList}" value="#{bundlePiloto.ViewPilotoShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundlePiloto.ViewPilotoIndexLink}"/>
+    <ui:composition>
 
+        <p:dialog id="PilotoViewDlg" widgetVar="PilotoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundlePiloto.ViewPilotoTitle}">
+            <h:form id="PilotoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pilotoController.selected != null}">
+                        <h:outputText value="#{bundlePiloto.ViewPilotoLabel_codigo}"/>
+                        <h:outputText value="#{pilotoController.selected.codigo}" title="#{bundlePiloto.ViewPilotoTitle_codigo}"/>
+                        <h:outputText value="#{bundlePiloto.ViewPilotoLabel_nombre}"/>
+                        <h:outputText value="#{pilotoController.selected.nombre}" title="#{bundlePiloto.ViewPilotoTitle_nombre}"/>
+                        <h:outputText value="#{bundlePiloto.ViewPilotoLabel_edad}"/>
+                        <h:outputText value="#{pilotoController.selected.edad}" title="#{bundlePiloto.ViewPilotoTitle_edad}"/>
+                        <h:outputText value="#{bundlePiloto.ViewPilotoLabel_genero}"/>
+                        <p:selectBooleanCheckbox value="#{pilotoController.selected.genero}" disabled="true"/>
+                        <h:outputText value="#{bundlePiloto.ViewPilotoLabel_moto}"/>
+                        <h:outputText value="#{pilotoController.selected.moto}" title="#{bundlePiloto.ViewPilotoTitle_moto}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundlePiloto.Close}" onclick="PilotoViewDialog.hide()"/>
+                </h:panelGroup>
             </h:form>
-        </ui:define>
-    </ui:composition>
+        </p:dialog>
 
+    </ui:composition>
 </html>

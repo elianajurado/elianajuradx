@@ -270,8 +270,9 @@ public class ListaDE implements Serializable {
         }
         throw new InfanteExcepcion("La lista de infantes está vacía");
     }
+    
 
-    public int obtenerPosicionInfante(short codigo) throws InfanteExcepcion {
+     public int obtenerPosicionInfante(short codigo) throws InfanteExcepcion {
         if (cabeza != null) {
             int cont = 1;
             NodoDE temp = cabeza;
@@ -287,5 +288,5 @@ public class ListaDE implements Serializable {
         }
         throw new InfanteExcepcion("La lista de infantes está vacía");
     }
-
+    
 }

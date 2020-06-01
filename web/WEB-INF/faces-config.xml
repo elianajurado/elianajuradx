@@ -19,6 +19,18 @@
             <base-name>/BundlePiloto</base-name>
             <var>bundlePiloto</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePiloto</base-name>
+            <var>bundlePiloto</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePirinola</base-name>
+            <var>bundlePirinola</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePirinola</base-name>
+            <var>bundlePirinola</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/inicioListas.xhtml</from-view-id>

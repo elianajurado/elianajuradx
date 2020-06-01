@@ -399,7 +399,23 @@ public class ListapDE implements Serializable{
         }
         throw new PilotoExcepcion("La lista de pilotos esta vacio"); 
     }
-    
+        public int obtenerGanador(short codigo) throws PilotoExcepcion {
+         if (cabeza != null) {
+            int cont = 1;
+            NodopDE temp = cabeza;
+            while (temp != null) {
+                if (temp.getDato().getCodigo() > codigo) {
+                    return cont;
+                }
+                temp = temp.getSiguiente();
+                cont++;
+            }
+            throw new PilotoExcepcion("El código ingresado no ");
+
+        }
+        throw new PilotoExcepcion("La lista de pilotos está vacía");
+    }
+
 }
 
 

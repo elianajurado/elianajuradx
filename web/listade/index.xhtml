@@ -184,8 +184,7 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}"
-                               value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                   <p:diagram id="diagrama" rendered="#{sesionInfanteDE.textoVista=='Tabla'}" value="#{sesionInfanteDE.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
                                      actionListener="#{sesionInfanteDE.onClickRight()}" 
@@ -254,7 +253,7 @@
                 </h:panelGroup>
             </p:dialog>
             
-            <p:dialog appendTo="@(body)" id="gestionPosicionInfante" header="Adelantar/perder posición infante" 
+            <p:dialog id="gestionPosicionInfante" header="Adelantar/perder posición infante" 
                       widgetVar="dlgGestionPosicionInfante"
                 modal="true" height="150">                          
                 <h:panelGroup id="panelGestionPosicion">

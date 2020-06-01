@@ -42,7 +42,7 @@
         <ui:define name="body">
         <p:growl id="grwlErrores"/>
         <h:form id="frmInfante">
-            <p:panel header="Lista Simplemente Enlazada Infantes - Total Infantes #{sesionInfante.listaInfantes.contarNodos()}">
+            <p:panel header="#{bundle.listase} Infantes - Total Infantes #{sesionInfante.listaInfantes.contarNodos()}">
                 <p:panelGrid columns="2">
                     <p:panel header="Datos Infante">
 
@@ -82,13 +82,13 @@
                                 <f:selectItem itemLabel="NO" itemValue="0"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Guardar" update="frmInfante,:grwlErrores"
+                        <p:commandButton value="Guardar" update="frmInfante,:growl"
                                          action="#{sesionInfante.guardarInfante()}" disabled="#{sesionInfante.deshabilitarFormulario}"/>
 
                         <p:commandButton value="Nuevo" update="frmInfante" action="#{sesionInfante.habilitarFormulario()}"
                                          disabled="#{!sesionInfante.deshabilitarFormulario}"
                                          />
-                        <p:commandButton value="Invertir"  update="frmInfante,:grwlErrores"
+                        <p:commandButton value="Invertir"  update="frmInfante,:growl"
                                          action="#{sesionInfante.invertirLista()}"
                                          />
                         <p:panelGrid columns="3">
@@ -103,15 +103,8 @@
                         <p:outputLabel value="Código a eliminar: "/>
                         <p:inputText value="#{sesionInfante.codigoEliminar}" maxlength="4" size="10"/>
                         <p:commandButton value="Eliminar" action="#{sesionInfante.eliminarInfante()}" 
-                                         update="frmInfante,:grwlErrores"
+                                         update="frmInfante,:growl"
                                          />
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="Adelantar posiciones"/>
-                            <p:inputText value="#{sesionInfante.infanteSeleccionado}" 
-                                     maxlength="4" size="10"/>
-                            <p:commandButton value="Adelantar" action="#{sesionInfante.Adelantar(temp, posAd)}"
-                                         update="frmInfante,:grwlErrores"/>
-                        </p:panelGrid>
                     </p:panel>
                     <p:panel header="Reportes">
                         <p:outputLabel value="Promedio de Edad de los infantes: #{sesionInfante.listaInfantes.promediarEdades()}"/>
@@ -168,7 +161,7 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:diagram id="diagrama" rendered="#{sesionInfante.textoVista=='Tabla'}" value="#{sesionInfante.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
+                    <p:diagram id="diagrama"  rendered="#{sesionInfante.textoVista=='Tabla'}" value="#{sesionInfante.model}" style="height:600px; width: 100%;" styleClass="ui-widget-content" />
 
                     <p:remoteCommand name="elementClickRight" 
                                      actionListener="#{sesionInfante.onClickRight()}" 
@@ -193,25 +186,23 @@
                                    >
                         <p:menuitem value="Ver datos" 
                                     action="#{sesionInfante.obtenerInfanteDiagrama()}" 
-                                    update="panelInfante"                                    
+                                    update="panelInfante"                                  
                                     oncomplete="PF('dlgDatosInfante').show();" />
-                        <p:menuitem value="Eliminar" update="pnlVista"
-                                    action="#{sesionInfante.eliminarInfanteseleccionado()}"/>
+                        <p:menuitem value="Eliminar"/>
                         <p:menuitem value="Enviar al final" update="pnlVista"                                    
                                     action="#{sesionInfante.enviarAlFinal()}"/>
                         <p:menuitem value="Enviar al inicio" update="pnlVista"                                    
                                     action="#{sesionInfante.enviarAlInicio()}"                                    
                                     />
-                        <p:menuitem value="Adelantar Posición"/>
-                        
-                                    
+                        <p:menuitem value="Adelantar/Perder Posición"/>
                     </p:contextMenu>
                 </p:panel>
             </p:panel>
             
-            <p:dialog id="modalInfante" header="Datos Infante" widgetVar="dlgDatosInfante" 
-                      modal="true" height="100">
-                <p:panel id="panelInfante">
+            <p:dialog id="modalInfante" appendTo="@(body)" header="Datos Infante" widgetVar="dlgDatosInfante" 
+                      modal="true" height="100" >
+                
+                <p:panel id="panelInfante" >
                     <h:panelGrid columns="2">
                         <h:outputText value="Código:" />
                         <h:outputText value="#{sesionInfante.infanteDiagrama.codigo}" />
@@ -220,10 +211,6 @@
                         <h:outputText value="Género:" />
                         <h:outputText rendered="#{sesionInfante.infanteDiagrama.genero}" value="Masculino" />
                         <h:outputText rendered="#{!sesionInfante.infanteDiagrama.genero}" value="Femenino" />
-                         <h:outputText value="Edad:" />
-                         <h:outputText value="#{sesionInfante.infanteDiagrama.edad}" />
-                          <h:outputText value="Ciudad De Nacimiento:" />
-                          <h:outputText value="#{sesionInfante.infanteDiagrama.ciudadNacimiento}" />
                     </h:panelGrid>
                     
                 </p:panel>

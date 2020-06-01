@@ -6,6 +6,7 @@
 package com.listase.modelo;
 
 import java.io.Serializable;
+import com.listasenlazada.modelo.Infante;
 
 /**
  *

@@ -64,6 +64,10 @@
                                 <tr>
                                     <th><p:commandButton value="Último" action="#{sesionPilotoDE.irUltimo()}" 
                                                  update="frmPiloto"/> </th>
+                                    <th><p:commandButton value="Finalizar carrera"                                     
+                                                         action="#{sesionPilotoDE.obtenerGanador()}" 
+                                    update="panelPiloto"                                    
+                                    oncomplete="PF('dlgDatosPiloto').show();" /></th>
                                 </tr>
                                 <tr>
                                     <th>Código a eliminar:</th>

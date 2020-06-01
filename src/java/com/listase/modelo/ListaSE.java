@@ -5,11 +5,11 @@
  */
 package com.listase.modelo;
 
-import com.listase.excepciones.PilotoExcepcion;
 import com.listase.excepciones.InfanteExcepcion;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import com.listasenlazada.modelo.Infante;
 
 /**
  *
@@ -183,7 +183,7 @@ public class ListaSE implements Serializable{
             short cont=1;
             while(temp!=null)
             {
-                if(temp.getDato().isGenero()==genero)
+                if(temp.getDato().getGenero()==genero)
                 {
                     cont++;
                 }

@@ -175,6 +175,7 @@ public class SesionPilotoDE implements Serializable {
 
         
     public List getListadoPilotos() {
+        inicializar();
         return listadoPilotos;
     }
 
@@ -402,6 +403,15 @@ public class SesionPilotoDE implements Serializable {
     {
         try {
             posicionPiloto = listaPilotos.obtenerPosicionPiloto(pilotoSeleccionado);
+        } catch (PilotoExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    public void obtenerGanador()
+    {
+        try {
+            posicionPiloto = listaPilotos.obtenerGanador(pilotoSeleccionado);
         } catch (PilotoExcepcion ex) {
             JsfUtil.addErrorMessage(ex.getMessage());
         }
