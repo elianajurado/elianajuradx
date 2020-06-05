@@ -28,16 +28,31 @@ import org.primefaces.model.diagram.overlay.LabelOverlay;
 @ApplicationScoped
 public class AppPirinola {
 
+    private String correoTurno="elianajurado0825@gmail.com";    
+    private int cont=0;   
     private ListaCircularPirinolaDE pirinola;
-
     private NodoPirinolaDE ayudante;
-
-    private Pirinola pirinolaActual;
-   
+    private Pirinola pirinolaActual;   
     private DefaultDiagramModel model;
     
        public ListaCircularPirinolaDE getPirinola() {
         return pirinola;
+    }
+
+    public String getCorreoTurno() {
+        return correoTurno;
+    }
+
+    public void setCorreoTurno(String correoTurno) {
+        this.correoTurno = correoTurno;
+    }
+
+    public int getCont() {
+        return cont;
+    }
+
+    public void setCont(int cont) {
+        this.cont = cont;
     }
 
     public void setPirinola(ListaCircularPirinolaDE pirinola) {
@@ -69,6 +84,29 @@ public class AppPirinola {
         this.model = model;
     }
 
+    public void aumentarContador(String correo)
+    {
+        switch(correo)
+        {
+            case "elianajurado0825@gmail.com":
+                correoTurno= "ejurado69896@umanizales.edu.co";
+                break;
+            default:
+                correoTurno= "elianajurado0825@gmail.com";
+        }
+        
+        cont++;
+    }
+    
+    public boolean validarTurno(String correo)
+    {
+        if(correo.equals(correoTurno))
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public AppPirinola() {
         
         pirinola = new ListaCircularPirinolaDE();        
@@ -101,16 +139,23 @@ public class AppPirinola {
         connector.setPaintStyle("{strokeStyle:'#7D7463',lineWidth:3}");
         model.setDefaultConnector(connector);
 
-        if (pirinola.getCabeza() != null) {
+        if (pirinola.getCabeza() != null)
+        //si no esta vacia
+        {
+           //entonces mi ayudante va a la cabeza
             NodoPirinolaDE temp = pirinola.getCabeza();
+            //defino la posición de los elementos con posX y posY
             double posX;
             double posY;
-            int numElementos = pirinola.contarNodos();
+            //Puntos del diagrama, número de puntos
+            int puntos = pirinola.contarNodos();
+            //Define el ángulo en el que se pintará el digrama
             double angle;
+            //el contador
             int cont = 0;
-
+            //distibuyo los datos en la pirinola ejemplo sacado de: https://stackoverflow.com/questions/44358067/evenly-distribute-points-on-a-circle
             do {
-                angle= (2*Math.PI*cont)/numElementos;
+                angle= (2*Math.PI*cont)/puntos;
                 
                 angle += (1.5 *Math.PI);
                 

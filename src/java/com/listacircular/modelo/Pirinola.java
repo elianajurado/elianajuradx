@@ -19,11 +19,6 @@ public class Pirinola {
         this.nombre = nombre;
     }
 
-    public Pirinola() {
-    }
-
-    
-    
     public int getCaras() {
         return caras;
     }

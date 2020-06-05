@@ -27,14 +27,11 @@ public class ListaCircularPirinolaDE implements Serializable {
     public void adicionarNodo(Pirinola pirinola) {
         if (cabeza == null) {
             cabeza = new NodoPirinolaDE(pirinola);
-            ///Hago los enlaces circulares
             cabeza.setSiguiente(cabeza);
             cabeza.setAnterior(cabeza);
 
         } else {
-            //Lamo a mi ayudante
             NodoPirinolaDE temp = cabeza.getAnterior();
-            //temp= temp.getAnterior();
             NodoPirinolaDE nodoInsertar = new NodoPirinolaDE(pirinola);
             temp.setSiguiente(nodoInsertar);
             nodoInsertar.setAnterior(temp);
@@ -46,7 +43,6 @@ public class ListaCircularPirinolaDE implements Serializable {
     public void adicionarNodoAlInicio(Pirinola pirinola) {
         if (cabeza == null) {
             cabeza = new NodoPirinolaDE(pirinola);
-            ///Hago los enlaces circulares
             cabeza.setSiguiente(cabeza);
             cabeza.setAnterior(cabeza);
         } else {
